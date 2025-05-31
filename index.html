@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Toolbox Basic - JS thuần</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    h2 {
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+    }
+    section {
+      margin-bottom: 30px;
+    }
+    input, textarea, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+    button {
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .result {
+      margin-top: 10px;
+      background: #f4f4f4;
+      padding: 10px;
+      word-break: break-word;
+      white-space: pre-wrap;
+    }
+    #qrcode {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Toolbox Basic (JS thuần)</h1>
+
+  <!-- QR Code Generator -->
+  <section>
+    <h2>1. Sinh QR Code</h2>
+    <label for="qrtext">Nhập nội dung để tạo QR Code:</label>
+    <input id="qrtext" type="text" placeholder="Nhập nội dung..." />
+    <button id="generateQR">Tạo QR Code</button>
+    <div id="qrcode"></div>
+  </section>
+
+  <!-- Hash MD5 -->
+  <section>
+    <h2>2. Hash MD5</h2>
+    <label for="md5text">Nhập chuỗi để băm MD5:</label>
+    <input id="md5text" type="text" placeholder="Nhập chuỗi..." />
+    <button id="hashMD5">Tính MD5</button>
+    <div id="md5result" class="result"></div>
+  </section>
+
+  <!-- Check JWT -->
+  <section>
+    <h2>3. Giải mã JWT</h2>
+    <label for="jwttext">Nhập JWT:</label>
+    <textarea id="jwttext" rows="3" placeholder="Nhập JWT ở đây..."></textarea>
+    <button id="decodeJWT">Giải mã Payload</button>
+    <div id="jwtresult" class="result"></div>
+  </section>
+
+  <!-- Import thư viện QRCode.js và js-md5 từ CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-md5@0.7.3/build/md5.min.js"></script>
+
+  <script>
+    // 1. QR Code generator
+    const qrcodeContainer = document.getElementById('qrcode');
+    document.getElementById('generateQR').addEventListener('click', () => {
+      const text = document.getElementById('qrtext').value.trim();
+      qrcodeContainer.innerHTML = ''; // xóa QR cũ
+      if (!text) {
+        alert('Vui lòng nhập nội dung để tạo QR Code.');
+        return;
+      }
+      new QRCode(qrcodeContainer, {
+        text: text,
+        width: 180,
+        height: 180,
+      });
+    });
+
+    // 2. MD5 hash
+    document.getElementById('hashMD5').addEventListener('click', () => {
+      const text = document.getElementById('md5text').value;
+      if (!text) {
+        alert('Vui lòng nhập chuỗi để băm.');
+        return;
+      }
+      const hash = md5(text);
+      document.getElementById('md5result').textContent = hash;
+    });
+
+    // 3. Decode JWT payload
+    function base64UrlDecode(str) {
+      // Thay - và _ về + và / rồi decode base64
+      str = str.replace(/-/g, '+').replace(/_/g, '/');
+      // padding =
+      while (str.length % 4) {
+        str += '=';
+      }
+      try {
+        return decodeURIComponent(
+          atob(str)
+            .split('')
+            .map(function(c) {
+              return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            })
+            .join('')
+        );
+      } catch (e) {
+        return null;
+      }
+    }
+
+    document.getElementById('decodeJWT').addEventListener('click', () => {
+      const jwt = document.getElementById('jwttext').value.trim();
+      const resultEl = document.getElementById('jwtresult');
+      resultEl.textContent = '';
+      if (!jwt) {
+        alert('Vui lòng nhập JWT.');
+        return;
+      }
+
+      const parts = jwt.split('.');
+      if (parts.length !== 3) {
+        resultEl.textContent = 'JWT không hợp lệ (cần 3 phần phân cách bằng dấu chấm).';
+        return;
+      }
+
+      const payload = base64UrlDecode(parts[1]);
+      if (!payload) {
+        resultEl.textContent = 'Giải mã payload thất bại.';
+        return;
+      }
+
+      try {
+        const obj = JSON.parse(payload);
+        resultEl.textContent = JSON.stringify(obj, null, 2);
+      } catch (e) {
+        resultEl.textContent = 'Payload không phải JSON hợp lệ.';
+      }
+    });
+  </script>
+
+</body>
+</html>

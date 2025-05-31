@@ -1,15 +1,28 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tính ngày lễ, ngày đặc biệt theo lịch (ví dụ Tết)</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tính diện tích hình tròn</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Tính ngày lễ, ngày đặc biệt theo lịch (ví dụ Tết)</h1>
-  <p class="text-gray-700">Tính năng: Tính ngày lễ, ngày đặc biệt theo lịch (ví dụ Tết)</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">75. Tính diện tích hình tròn</h1>
+<label for="radius" class="block mb-2 font-semibold">Nhập bán kính (r):</label>
+<input id="radius" type="number" min="0" step="0.01" class="w-full p-2 border rounded mb-4" />
+<button id="calcBtn" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Tính diện tích</button>
+<div id="result" class="mt-4 p-4 bg-gray-100 border rounded"></div>
+
+<script>
+document.getElementById('calcBtn').addEventListener('click', () => {
+  const r = parseFloat(document.getElementById('radius').value);
+  if (isNaN(r) || r < 0) {
+    alert('Vui lòng nhập bán kính hợp lệ.');
+    return;
+  }
+  const area = Math.PI * r * r;
+  document.getElementById('result').textContent = `Diện tích hình tròn là: ${area.toFixed(2)}`;
+});
+</script>
 </body>
 </html>

@@ -1,15 +1,42 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tạo mã QR lịch sự kiện (iCalendar)</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chuyển đổi số tuần sang ngày bắt đầu và kết thúc</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 </head>
-<body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Tạo mã QR lịch sự kiện (iCalendar)</h1>
-  <p class="text-gray-700">Tính năng: Tạo mã QR lịch sự kiện (iCalendar)</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<body class="bg-gray-50 p-6 min-h-screen font-sans text-center">
+<h1 class="text-3xl font-bold mb-4">89. Chuyển đổi số tuần sang ngày bắt đầu và kết thúc</h1>
+<label for="yearInput" class="block mb-2 font-semibold">Nhập năm:</label>
+<input id="yearInput" type="number" min="1900" max="2100" value="2025" class="w-48 p-2 border rounded mb-4 mx-auto" />
+<label for="weekInput" class="block mb-2 font-semibold">Nhập số tuần:</label>
+<input id="weekInput" type="number" min="1" max="53" value="1" class="w-48 p-2 border rounded mb-4 mx-auto" />
+<button id="calcBtn" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Tính ngày</button>
+<div id="result" class="mt-4 p-4 bg-gray-100 border rounded font-mono"></div>
+
+<script>
+function getDateOfISOWeek(week, year) {
+  const simple = new Date(year, 0, 1 + (week - 1) * 7);
+  const dow = simple.getDay();
+  const ISOweekStart = simple;
+  if (dow <= 4) ISOweekStart.setDate(simple.getDate() - simple.getDay() + 1);
+  else ISOweekStart.setDate(simple.getDate() + 8 - simple.getDay());
+  return ISOweekStart;
+}
+
+document.getElementById('calcBtn').addEventListener('click', () => {
+  const year = parseInt(document.getElementById('yearInput').value);
+  const week = parseInt(document.getElementById('weekInput').value);
+  if (isNaN(year) || isNaN(week) || week < 1 || week > 53) {
+    alert('Vui lòng nhập năm và số tuần hợp lệ.');
+    return;
+  }
+  const start = getDateOfISOWeek(week, year);
+  const end = new Date(start);
+  end.setDate(start.getDate() + 6);
+  document.getElementById('result').textContent = `Tuần ${week} năm ${year} bắt đầu từ ${start.toLocaleDateString()} đến ${end.toLocaleDateString()}`;
+});
+</script>
 </body>
 </html>

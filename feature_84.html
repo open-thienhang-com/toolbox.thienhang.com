@@ -1,15 +1,82 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tạo chuỗi slug URL thân thiện</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tạo và kiểm tra JWT đơn giản</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/js-base64/base64.min.js"></script>
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Tạo chuỗi slug URL thân thiện</h1>
-  <p class="text-gray-700">Tính năng: Tạo chuỗi slug URL thân thiện</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">84. Tạo và kiểm tra JWT đơn giản (không ký số)</h1>
+
+<label for="headerInput" class="block mb-2 font-semibold">Header JSON (mặc định):</label>
+<textarea id="headerInput" rows="3" class="w-full p-2 border rounded mb-4" readonly>{"alg":"none","typ":"JWT"}</textarea>
+
+<label for="payloadInput" class="block mb-2 font-semibold">Payload JSON:</label>
+<textarea id="payloadInput" rows="5" class="w-full p-2 border rounded mb-4" placeholder='{"user":"abc","exp":1234567890}'></textarea>
+
+<button id="createBtn" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 mb-4">Tạo JWT</button>
+
+<label for="jwtInput" class="block mb-2 font-semibold">Nhập JWT để kiểm tra:</label>
+<textarea id="jwtInput" rows="4" class="w-full p-2 border rounded mb-4" placeholder="Nhập JWT..."></textarea>
+
+<button id="decodeBtn" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Giải mã JWT</button>
+
+<div id="result" class="mt-4 p-4 bg-gray-100 border rounded whitespace-pre-wrap font-mono"></div>
+
+<script>
+const b64u = Base64; // dùng thư viện js-base64
+
+function base64urlEncode(str) {
+  return b64u.fromUint8Array(new TextEncoder().encode(str))
+    .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function base64urlEncodeString(str) {
+  return b64u.encodeURI(str);
+}
+
+function base64urlDecodeString(str) {
+  return b64u.decode(str);
+}
+
+document.getElementById('createBtn').addEventListener('click', () => {
+  const header = document.getElementById('headerInput').value;
+  const payload = document.getElementById('payloadInput').value;
+  try {
+    JSON.parse(header);
+    JSON.parse(payload);
+  } catch {
+    alert('Header hoặc payload không phải JSON hợp lệ.');
+    return;
+  }
+  const encodedHeader = base64urlEncodeString(header);
+  const encodedPayload = base64urlEncodeString(payload);
+  const jwt = `${encodedHeader}.${encodedPayload}.`;
+  document.getElementById('jwtInput').value = jwt;
+  document.getElementById('result').textContent = 'JWT đã được tạo (không ký số).';
+});
+
+document.getElementById('decodeBtn').addEventListener('click', () => {
+  const jwt = document.getElementById('jwtInput').value.trim();
+  if (!jwt) {
+    alert('Vui lòng nhập JWT.');
+    return;
+  }
+  const parts = jwt.split('.');
+  if (parts.length !== 3) {
+    alert('JWT không hợp lệ (phải có 3 phần).');
+    return;
+  }
+  try {
+    const header = base64urlDecodeString(parts[0]);
+    const payload = base64urlDecodeString(parts[1]);
+    document.getElementById('result').textContent = `Header:\n${header}\n\nPayload:\n${payload}`;
+  } catch {
+    alert('Không thể giải mã JWT.');
+  }
+});
+</script>
 </body>
 </html>

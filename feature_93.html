@@ -1,15 +1,61 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tạo random số nguyên trong khoảng</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mã hóa Caesar Cipher</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<style>
+  pre { white-space: pre-wrap; word-break: break-word; }
+</style>
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Tạo random số nguyên trong khoảng</h1>
-  <p class="text-gray-700">Tính năng: Tạo random số nguyên trong khoảng</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">93. Mã hóa Caesar Cipher</h1>
+<label for="textInput" class="block mb-2 font-semibold">Nhập văn bản:</label>
+<textarea id="textInput" rows="5" class="w-full p-2 border rounded mb-4"></textarea>
+<label for="shiftInput" class="block mb-2 font-semibold">Nhập số dịch chuyển (0-25):</label>
+<input id="shiftInput" type="number" min="0" max="25" value="3" class="w-24 p-2 border rounded mb-4" />
+<button id="encryptBtn" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Mã hóa</button>
+<button id="decryptBtn" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 ml-2">Giải mã</button>
+<pre id="result" class="mt-4 p-4 bg-gray-100 border rounded"></pre>
+
+<script>
+function caesarCipher(str, shift) {
+  return str.replace(/[a-zA-Z]/g, c => {
+    const base = c <= 'Z' ? 65 : 97;
+    return String.fromCharCode((c.charCodeAt(0) - base + shift + 26) % 26 + base);
+  });
+}
+
+document.getElementById('encryptBtn').addEventListener('click', () => {
+  const text = document.getElementById('textInput').value;
+  const shift = parseInt(document.getElementById('shiftInput').value);
+  if (!text) {
+    alert('Vui lòng nhập văn bản.');
+    return;
+  }
+  if (isNaN(shift) || shift < 0 || shift > 25) {
+    alert('Số dịch chuyển phải từ 0 đến 25.');
+    return;
+  }
+  const encrypted = caesarCipher(text, shift);
+  document.getElementById('result').textContent = encrypted;
+});
+
+document.getElementById('decryptBtn').addEventListener('click', () => {
+  const text = document.getElementById('textInput').value;
+  const shift = parseInt(document.getElementById('shiftInput').value);
+  if (!text) {
+    alert('Vui lòng nhập văn bản.');
+    return;
+  }
+  if (isNaN(shift) || shift < 0 || shift > 25) {
+    alert('Số dịch chuyển phải từ 0 đến 25.');
+    return;
+  }
+  const decrypted = caesarCipher(text, -shift);
+  document.getElementById('result').textContent = decrypted;
+});
+</script>
 </body>
 </html>

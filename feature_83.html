@@ -1,15 +1,37 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Đếm ký tự đặc biệt trong chuỗi</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tạo QR code từ website + văn bản</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Đếm ký tự đặc biệt trong chuỗi</h1>
-  <p class="text-gray-700">Tính năng: Đếm ký tự đặc biệt trong chuỗi</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">83. Tạo QR code từ website + văn bản</h1>
+<label for="urlInput" class="block mb-2 font-semibold">Nhập URL:</label>
+<input id="urlInput" type="url" placeholder="https://example.com" class="w-full p-2 border rounded mb-4" />
+<label for="textInput" class="block mb-2 font-semibold">Nhập văn bản thêm:</label>
+<textarea id="textInput" rows="4" class="w-full p-2 border rounded mb-4"></textarea>
+<button id="generateBtn" class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Tạo QR Code</button>
+<div id="qrcode" class="mt-6"></div>
+
+<script>
+document.getElementById('generateBtn').addEventListener('click', () => {
+  const url = document.getElementById('urlInput').value.trim();
+  const text = document.getElementById('textInput').value.trim();
+  if (!url) {
+    alert('Vui lòng nhập URL.');
+    return;
+  }
+  const combined = text ? `${url}\n${text}` : url;
+  document.getElementById('qrcode').innerHTML = '';
+  new QRCode(document.getElementById('qrcode'), {
+    text: combined,
+    width: 200,
+    height: 200,
+  });
+});
+</script>
 </body>
 </html>

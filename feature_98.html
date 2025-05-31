@@ -1,15 +1,28 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lấy thông tin hệ điều hành</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chuyển đổi số Hexa sang thập phân</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Lấy thông tin hệ điều hành</h1>
-  <p class="text-gray-700">Tính năng: Lấy thông tin hệ điều hành</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">98. Chuyển đổi số Hexa sang thập phân</h1>
+<label for="hexInput" class="block mb-2 font-semibold">Nhập số Hexa:</label>
+<input id="hexInput" type="text" class="w-full p-2 border rounded mb-4" placeholder="Ví dụ: 1A3F" />
+<button id="convertBtn" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Chuyển đổi</button>
+<div id="result" class="mt-4 p-4 bg-gray-100 border rounded font-mono"></div>
+
+<script>
+document.getElementById('convertBtn').addEventListener('click', () => {
+  const hex = document.getElementById('hexInput').value.trim();
+  if (!/^[0-9a-fA-F]+$/.test(hex)) {
+    alert('Vui lòng nhập số Hexa hợp lệ.');
+    return;
+  }
+  const dec = parseInt(hex, 16);
+  document.getElementById('result').textContent = `Số thập phân: ${dec}`;
+});
+</script>
 </body>
 </html>

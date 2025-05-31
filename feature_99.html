@@ -1,15 +1,35 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lấy thông tin phần cứng (nếu có)</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tạo QR code từ văn bản JSON</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Lấy thông tin phần cứng (nếu có)</h1>
-  <p class="text-gray-700">Tính năng: Lấy thông tin phần cứng (nếu có)</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">99. Tạo QR code từ văn bản JSON</h1>
+<label for="jsonInput" class="block mb-2 font-semibold">Nhập JSON:</label>
+<textarea id="jsonInput" rows="8" class="w-full p-2 border rounded mb-4" placeholder='{"name":"Nguyễn Văn A","age":30}'></textarea>
+<button id="generateBtn" class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Tạo QR Code</button>
+<div id="qrcode" class="mt-6"></div>
+
+<script>
+document.getElementById('generateBtn').addEventListener('click', () => {
+  const jsonText = document.getElementById('jsonInput').value.trim();
+  try {
+    JSON.parse(jsonText);
+  } catch {
+    alert('Vui lòng nhập JSON hợp lệ.');
+    return;
+  }
+  document.getElementById('qrcode').innerHTML = '';
+  new QRCode(document.getElementById('qrcode'), {
+    text: jsonText,
+    width: 200,
+    height: 200,
+  });
+});
+</script>
 </body>
 </html>

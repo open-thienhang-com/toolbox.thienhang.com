@@ -1,15 +1,39 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tính số ngày trong tháng</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tạo màu gradient CSS ngẫu nhiên</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<style>
+  #gradientBox {
+    height: 150px;
+    border-radius: 0.5rem;
+  }
+</style>
 </head>
-<body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Tính số ngày trong tháng</h1>
-  <p class="text-gray-700">Tính năng: Tính số ngày trong tháng</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<body class="bg-gray-50 p-6 min-h-screen font-sans text-center">
+<h1 class="text-3xl font-bold mb-4">74. Tạo màu gradient CSS ngẫu nhiên</h1>
+<button id="generateBtn" class="px-4 py-2 bg-pink-600 text-white rounded hover:bg-pink-700">Tạo gradient mới</button>
+<div id="gradientBox" class="mt-6"></div>
+<div id="cssCode" class="mt-4 font-mono whitespace-pre-wrap"></div>
+
+<script>
+function randomColor() {
+  return `rgb(${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)})`;
+}
+
+document.getElementById('generateBtn').addEventListener('click', () => {
+  const c1 = randomColor();
+  const c2 = randomColor();
+  const gradient = `linear-gradient(45deg, ${c1}, ${c2})`;
+  const box = document.getElementById('gradientBox');
+  box.style.background = gradient;
+  document.getElementById('cssCode').textContent = `background: ${gradient};`;
+});
+
+// Tạo gradient khi tải trang
+document.getElementById('generateBtn').click();
+</script>
 </body>
 </html>

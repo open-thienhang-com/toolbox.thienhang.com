@@ -1,15 +1,34 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Kiểm tra trạng thái kết nối Internet</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tính số ngày giữa 2 ngày</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 </head>
-<body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Kiểm tra trạng thái kết nối Internet</h1>
-  <p class="text-gray-700">Tính năng: Kiểm tra trạng thái kết nối Internet</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<body class="bg-gray-50 p-6 min-h-screen font-sans text-center">
+<h1 class="text-3xl font-bold mb-4">96. Tính số ngày giữa 2 ngày</h1>
+<label for="date1" class="block mb-2 font-semibold">Chọn ngày bắt đầu:</label>
+<input id="date1" type="date" class="w-48 p-2 border rounded mb-4 mx-auto" />
+<label for="date2" class="block mb-2 font-semibold">Chọn ngày kết thúc:</label>
+<input id="date2" type="date" class="w-48 p-2 border rounded mb-4 mx-auto" />
+<button id="calcBtn" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Tính số ngày</button>
+<div id="result" class="mt-4 p-4 bg-gray-100 border rounded font-mono"></div>
+
+<script>
+document.getElementById('calcBtn').addEventListener('click', () => {
+  const d1Str = document.getElementById('date1').value;
+  const d2Str = document.getElementById('date2').value;
+  if (!d1Str || !d2Str) {
+    alert('Vui lòng chọn cả 2 ngày.');
+    return;
+  }
+  const d1 = new Date(d1Str);
+  const d2 = new Date(d2Str);
+  const diffMs = Math.abs(d2 - d1);
+  const diffDays = Math.floor(diffMs / (1000*60*60*24));
+  document.getElementById('result').textContent = `Số ngày giữa hai ngày: ${diffDays}`;
+});
+</script>
 </body>
 </html>

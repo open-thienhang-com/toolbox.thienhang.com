@@ -1,15 +1,53 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Đổi chữ hoa/thường xen kẽ (sPoNgEbOb text)</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tạo QR code cho địa chỉ WiFi</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Đổi chữ hoa/thường xen kẽ (sPoNgEbOb text)</h1>
-  <p class="text-gray-700">Tính năng: Đổi chữ hoa/thường xen kẽ (sPoNgEbOb text)</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">100. Tạo QR code cho địa chỉ WiFi</h1>
+<label for="ssidInput" class="block mb-2 font-semibold">Tên WiFi (SSID):</label>
+<input id="ssidInput" type="text" class="w-full p-2 border rounded mb-4" placeholder="Tên WiFi" />
+<label for="passwordInput" class="block mb-2 font-semibold">Mật khẩu WiFi:</label>
+<input id="passwordInput" type="text" class="w-full p-2 border rounded mb-4" placeholder="Mật khẩu (bỏ trống nếu không có)" />
+<label for="encryptionSelect" class="block mb-2 font-semibold">Loại mã hóa:</label>
+<select id="encryptionSelect" class="w-full p-2 border rounded mb-4">
+  <option value="WPA">WPA/WPA2</option>
+  <option value="WEP">WEP</option>
+  <option value="nopass">Không mã hóa</option>
+</select>
+<button id="generateBtn" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Tạo QR Code</button>
+<div id="qrcode" class="mt-6"></div>
+
+<script>
+function escapeWiFiString(str) {
+  return str.replace(/([\\;,:"])/g, '\\$1');
+}
+
+document.getElementById('generateBtn').addEventListener('click', () => {
+  const ssid = document.getElementById('ssidInput').value.trim();
+  const password = document.getElementById('passwordInput').value;
+  const encryption = document.getElementById('encryptionSelect').value;
+  if (!ssid) {
+    alert('Vui lòng nhập tên WiFi.');
+    return;
+  }
+  let wifiStr = `WIFI:T:${encryption};S:${escapeWiFiString(ssid)};`;
+  if (encryption !== 'nopass') {
+    wifiStr += `P:${escapeWiFiString(password)};`;
+  }
+  wifiStr += ';';
+
+  document.getElementById('qrcode').innerHTML = '';
+  new QRCode(document.getElementById('qrcode'), {
+    text: wifiStr,
+    width: 200,
+    height: 200,
+  });
+});
+</script>
 </body>
 </html>

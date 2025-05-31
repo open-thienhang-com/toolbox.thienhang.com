@@ -1,15 +1,33 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Giải mã Base32</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chuyển chữ đầu mỗi từ thành hoa (Title Case)</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Giải mã Base32</h1>
-  <p class="text-gray-700">Tính năng: Giải mã Base32</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">73. Chuyển chữ đầu mỗi từ thành hoa (Title Case)</h1>
+<label for="inputText" class="block mb-2 font-semibold">Nhập văn bản:</label>
+<textarea id="inputText" rows="5" class="w-full p-2 border rounded mb-4" placeholder="nhập văn bản..."></textarea>
+<button id="convertBtn" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Chuyển thành Title Case</button>
+<div id="result" class="mt-4 p-4 bg-gray-100 border rounded whitespace-pre-wrap"></div>
+
+<script>
+function toTitleCase(str) {
+  return str.toLowerCase().split(' ').map(word => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  }).join(' ');
+}
+
+document.getElementById('convertBtn').addEventListener('click', () => {
+  const text = document.getElementById('inputText').value;
+  if (!text) {
+    alert('Vui lòng nhập văn bản.');
+    return;
+  }
+  document.getElementById('result').textContent = toTitleCase(text);
+});
+</script>
 </body>
 </html>

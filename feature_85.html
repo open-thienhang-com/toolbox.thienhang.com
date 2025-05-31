@@ -1,15 +1,53 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Kiểm tra đăng nhập JWT expiry (token hết hạn?)</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mã hóa và giải mã Base64</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Kiểm tra đăng nhập JWT expiry (token hết hạn?)</h1>
-  <p class="text-gray-700">Tính năng: Kiểm tra đăng nhập JWT expiry (token hết hạn?)</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">85. Mã hóa Base64 và giải mã Base64</h1>
+<label for="inputText" class="block mb-2 font-semibold">Nhập văn bản:</label>
+<textarea id="inputText" rows="5" class="w-full p-2 border rounded mb-4"></textarea>
+
+<button id="encodeBtn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 mr-2">Mã hóa Base64</button>
+<button id="decodeBtn" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Giải mã Base64</button>
+
+<div id="result" class="mt-4 p-4 bg-gray-100 border rounded whitespace-pre-wrap font-mono"></div>
+
+<script>
+function base64Encode(str) {
+  return btoa(unescape(encodeURIComponent(str)));
+}
+
+function base64Decode(str) {
+  try {
+    return decodeURIComponent(escape(atob(str)));
+  } catch {
+    return 'Dữ liệu không hợp lệ để giải mã Base64.';
+  }
+}
+
+document.getElementById('encodeBtn').addEventListener('click', () => {
+  const text = document.getElementById('inputText').value;
+  if (!text) {
+    alert('Vui lòng nhập văn bản.');
+    return;
+  }
+  const encoded = base64Encode(text);
+  document.getElementById('result').textContent = encoded;
+});
+
+document.getElementById('decodeBtn').addEventListener('click', () => {
+  const text = document.getElementById('inputText').value;
+  if (!text) {
+    alert('Vui lòng nhập chuỗi Base64.');
+    return;
+  }
+  const decoded = base64Decode(text);
+  document.getElementById('result').textContent = decoded;
+});
+</script>
 </body>
 </html>

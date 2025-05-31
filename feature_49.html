@@ -1,15 +1,28 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hiển thị thời gian thực</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hiển thị thời gian thực</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<style>
+  #clock { font-size: 3rem; font-weight: bold; }
+</style>
 </head>
-<body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Hiển thị thời gian thực</h1>
-  <p class="text-gray-700">Tính năng: Hiển thị thời gian thực</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<body class="bg-gray-50 p-6 min-h-screen font-sans text-center">
+<h1 class="text-3xl font-bold mb-6">49. Hiển thị thời gian thực</h1>
+<div id="clock">--:--:--</div>
+
+<script>
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours().toString().padStart(2, '0');
+  const m = now.getMinutes().toString().padStart(2, '0');
+  const s = now.getSeconds().toString().padStart(2, '0');
+  document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+</script>
 </body>
 </html>

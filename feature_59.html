@@ -1,15 +1,45 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mã hóa AES-256 (chuẩn)</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tạo chữ ký số giả lập</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Mã hóa AES-256 (chuẩn)</h1>
-  <p class="text-gray-700">Tính năng: Mã hóa AES-256 (chuẩn)</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">59. Tạo chữ ký số giả lập (SHA-256 + base64)</h1>
+
+<label for="msgInput" class="block mb-2 font-semibold">Thông điệp:</label>
+<textarea id="msgInput" rows="5" class="w-full p-2 border rounded mb-4"></textarea>
+
+<button id="signBtn" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Tạo chữ ký</button>
+
+<div id="result" class="mt-4 p-4 bg-gray-100 border rounded break-words font-mono"></div>
+
+<script>
+async function sha256Base64(str) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(str);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const bytes = new Uint8Array(hashBuffer);
+  let binary = '';
+  bytes.forEach(b => binary += String.fromCharCode(b));
+  return btoa(binary);
+}
+
+document.getElementById('signBtn').addEventListener('click', async () => {
+  const msg = document.getElementById('msgInput').value.trim();
+  if (!msg) {
+    alert('Vui lòng nhập thông điệp.');
+    return;
+  }
+  try {
+    const signature = await sha256Base64(msg);
+    document.getElementById('result').textContent = signature;
+  } catch (e) {
+    document.getElementById('result').textContent = 'Lỗi: ' + e.message;
+  }
+});
+</script>
 </body>
 </html>

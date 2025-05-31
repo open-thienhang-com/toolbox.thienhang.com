@@ -1,15 +1,54 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>So sánh 2 file text khác nhau (diff)</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>So sánh 2 file text khác nhau (diff)</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<style>
+  pre { white-space: pre-wrap; word-break: break-word; }
+</style>
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">So sánh 2 file text khác nhau (diff)</h1>
-  <p class="text-gray-700">Tính năng: So sánh 2 file text khác nhau (diff)</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">54. So sánh 2 file text khác nhau (diff đơn giản)</h1>
+
+<label for="text1" class="block mb-2 font-semibold">File text 1:</label>
+<textarea id="text1" rows="5" class="w-full p-2 border rounded mb-4"></textarea>
+
+<label for="text2" class="block mb-2 font-semibold">File text 2:</label>
+<textarea id="text2" rows="5" class="w-full p-2 border rounded mb-4"></textarea>
+
+<button id="diffBtn" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">So sánh</button>
+<pre id="diffResult" class="mt-4 p-4 bg-gray-100 border rounded"></pre>
+
+<script>
+function simpleDiff(text1, text2) {
+  const lines1 = text1.split('\n');
+  const lines2 = text2.split('\n');
+  const maxLength = Math.max(lines1.length, lines2.length);
+  let diff = '';
+  for (let i = 0; i < maxLength; i++) {
+    const line1 = lines1[i] || '';
+    const line2 = lines2[i] || '';
+    if (line1 !== line2) {
+      diff += `- ${line1}\n+ ${line2}\n`;
+    } else {
+      diff += `  ${line1}\n`;
+    }
+  }
+  return diff;
+}
+
+document.getElementById('diffBtn').addEventListener('click', () => {
+  const t1 = document.getElementById('text1').value;
+  const t2 = document.getElementById('text2').value;
+  if (!t1 || !t2) {
+    alert('Vui lòng nhập cả hai file text.');
+    return;
+  }
+  const result = simpleDiff(t1, t2);
+  document.getElementById('diffResult').textContent = result;
+});
+</script>
 </body>
 </html>

@@ -1,15 +1,56 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Kiểm tra đạo văn đơn giản</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kiểm tra đạo văn đơn giản</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<style>
+  textarea { font-family: monospace; }
+</style>
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Kiểm tra đạo văn đơn giản</h1>
-  <p class="text-gray-700">Tính năng: Kiểm tra đạo văn đơn giản</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">43. Kiểm tra đạo văn đơn giản</h1>
+<label for="text1" class="block mb-2 font-semibold">Đoạn văn bản 1:</label>
+<textarea id="text1" rows="5" class="w-full p-2 border rounded mb-4"></textarea>
+
+<label for="text2" class="block mb-2 font-semibold">Đoạn văn bản 2:</label>
+<textarea id="text2" rows="5" class="w-full p-2 border rounded mb-4"></textarea>
+
+<button id="checkBtn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">So sánh</button>
+
+<div id="result" class="mt-4 p-4 bg-gray-100 border rounded"></div>
+
+<script>
+function similarity(s1, s2) {
+  const words1 = s1.toLowerCase().match(/\w+/g) || [];
+  const words2 = s2.toLowerCase().match(/\w+/g) || [];
+  const set1 = new Set(words1);
+  const set2 = new Set(words2);
+  const intersection = new Set([...set1].filter(x => set2.has(x)));
+  const union = new Set([...set1, ...set2]);
+  return union.size === 0 ? 0 : intersection.size / union.size;
+}
+
+document.getElementById('checkBtn').addEventListener('click', () => {
+  const s1 = document.getElementById('text1').value.trim();
+  const s2 = document.getElementById('text2').value.trim();
+  if (!s1 || !s2) {
+    alert('Vui lòng nhập cả hai đoạn văn bản.');
+    return;
+  }
+  const sim = similarity(s1, s2);
+  const percent = (sim * 100).toFixed(2);
+  let msg = `Mức độ tương đồng: ${percent}%`;
+  if (sim > 0.7) {
+    msg += ' (Cao - Có khả năng đạo văn)';
+  } else if (sim > 0.4) {
+    msg += ' (Trung bình)';
+  } else {
+    msg += ' (Thấp)';
+  }
+  document.getElementById('result').textContent = msg;
+});
+</script>
 </body>
 </html>

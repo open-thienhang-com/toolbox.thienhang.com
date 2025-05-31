@@ -1,15 +1,59 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Đồng hồ đếm ngược</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Đồng hồ đếm ngược</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<style>
+  #countdown { font-size: 3rem; font-weight: bold; }
+</style>
 </head>
-<body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Đồng hồ đếm ngược</h1>
-  <p class="text-gray-700">Tính năng: Đồng hồ đếm ngược</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<body class="bg-gray-50 p-6 min-h-screen font-sans text-center">
+<h1 class="text-3xl font-bold mb-6">47. Đồng hồ đếm ngược</h1>
+
+<label for="secondsInput" class="block mb-2 font-semibold">Nhập số giây đếm ngược:</label>
+<input id="secondsInput" type="number" min="1" value="60" class="w-32 p-2 border rounded mb-4 mx-auto" />
+
+<div>
+  <button id="startBtn" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 mr-2">Bắt đầu</button>
+  <button id="stopBtn" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Dừng</button>
+</div>
+
+<div id="countdown" class="mt-8">00:00</div>
+
+<script>
+  let timer;
+  let remainingSeconds = 0;
+
+  function formatTime(sec) {
+    const m = Math.floor(sec / 60).toString().padStart(2, '0');
+    const s = (sec % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+  }
+
+  document.getElementById('startBtn').addEventListener('click', () => {
+    const inputVal = parseInt(document.getElementById('secondsInput').value);
+    if (isNaN(inputVal) || inputVal <= 0) {
+      alert('Vui lòng nhập số giây hợp lệ.');
+      return;
+    }
+    remainingSeconds = inputVal;
+    clearInterval(timer);
+    document.getElementById('countdown').textContent = formatTime(remainingSeconds);
+    timer = setInterval(() => {
+      remainingSeconds--;
+      document.getElementById('countdown').textContent = formatTime(remainingSeconds);
+      if (remainingSeconds <= 0) {
+        clearInterval(timer);
+        alert('Đếm ngược kết thúc!');
+      }
+    }, 1000);
+  });
+
+  document.getElementById('stopBtn').addEventListener('click', () => {
+    clearInterval(timer);
+  });
+</script>
 </body>
 </html>

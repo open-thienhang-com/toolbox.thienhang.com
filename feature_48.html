@@ -1,15 +1,53 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Đồng hồ đếm lên (stopwatch)</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Đồng hồ đếm lên (Stopwatch)</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<style>
+  #stopwatch { font-size: 3rem; font-weight: bold; }
+</style>
 </head>
-<body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Đồng hồ đếm lên (stopwatch)</h1>
-  <p class="text-gray-700">Tính năng: Đồng hồ đếm lên (stopwatch)</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<body class="bg-gray-50 p-6 min-h-screen font-sans text-center">
+<h1 class="text-3xl font-bold mb-6">48. Đồng hồ đếm lên (Stopwatch)</h1>
+
+<div>
+  <button id="startBtn" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 mr-2">Bắt đầu</button>
+  <button id="stopBtn" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 mr-2">Dừng</button>
+  <button id="resetBtn" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700">Đặt lại</button>
+</div>
+
+<div id="stopwatch" class="mt-8">00:00:00</div>
+
+<script>
+  let timer;
+  let elapsedSeconds = 0;
+
+  function formatTime(sec) {
+    const h = Math.floor(sec / 3600).toString().padStart(2, '0');
+    const m = Math.floor((sec % 3600) / 60).toString().padStart(2, '0');
+    const s = (sec % 60).toString().padStart(2, '0');
+    return `${h}:${m}:${s}`;
+  }
+
+  document.getElementById('startBtn').addEventListener('click', () => {
+    clearInterval(timer);
+    timer = setInterval(() => {
+      elapsedSeconds++;
+      document.getElementById('stopwatch').textContent = formatTime(elapsedSeconds);
+    }, 1000);
+  });
+
+  document.getElementById('stopBtn').addEventListener('click', () => {
+    clearInterval(timer);
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    clearInterval(timer);
+    elapsedSeconds = 0;
+    document.getElementById('stopwatch').textContent = formatTime(elapsedSeconds);
+  });
+</script>
 </body>
 </html>

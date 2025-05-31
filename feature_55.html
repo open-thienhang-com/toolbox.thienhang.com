@@ -1,15 +1,30 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Chuyển đổi Markdown sang HTML</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chuyển đổi Markdown sang HTML</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+  #preview { border: 1px solid #ccc; padding: 1rem; border-radius: 0.375rem; background: white; }
+</style>
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Chuyển đổi Markdown sang HTML</h1>
-  <p class="text-gray-700">Tính năng: Chuyển đổi Markdown sang HTML</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">55. Chuyển đổi Markdown sang HTML</h1>
+<label for="mdInput" class="block mb-2 font-semibold">Nhập Markdown:</label>
+<textarea id="mdInput" rows="10" class="w-full p-2 border rounded mb-4" placeholder="# Tiêu đề\n- Mục 1\n- Mục 2"></textarea>
+<button id="convertBtn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Chuyển đổi</button>
+
+<h2 class="mt-6 mb-2 text-xl font-semibold">Xem trước HTML:</h2>
+<div id="preview" class="prose max-w-none"></div>
+
+<script>
+document.getElementById('convertBtn').addEventListener('click', () => {
+  const md = document.getElementById('mdInput').value;
+  const html = marked.parse(md);
+  document.getElementById('preview').innerHTML = html;
+});
+</script>
 </body>
 </html>

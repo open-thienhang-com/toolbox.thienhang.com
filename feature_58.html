@@ -1,15 +1,36 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tạo mật khẩu từ cụm từ (passphrase generator)</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tạo mật khẩu từ cụm từ (passphrase)</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<style>
+  pre { white-space: pre-wrap; word-break: break-word; }
+</style>
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Tạo mật khẩu từ cụm từ (passphrase generator)</h1>
-  <p class="text-gray-700">Tính năng: Tạo mật khẩu từ cụm từ (passphrase generator)</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">58. Tạo mật khẩu từ cụm từ (passphrase)</h1>
+<label for="phraseInput" class="block mb-2 font-semibold">Nhập cụm từ (phrase):</label>
+<input id="phraseInput" type="text" class="w-full p-2 border rounded mb-4" placeholder="Ví dụ: tôi yêu lập trình" />
+<button id="generateBtn" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Tạo mật khẩu</button>
+<pre id="result" class="mt-4 p-4 bg-gray-100 border rounded"></pre>
+
+<script>
+const symbols = ['!', '@', '#', '$', '%', '&', '*', '?'];
+
+document.getElementById('generateBtn').addEventListener('click', () => {
+  const phrase = document.getElementById('phraseInput').value.trim();
+  if (!phrase) {
+    alert('Vui lòng nhập cụm từ.');
+    return;
+  }
+  const words = phrase.split(/\s+/);
+  let password = words.map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('');
+  password += symbols[Math.floor(Math.random() * symbols.length)];
+  password += Math.floor(Math.random() * 100);
+  document.getElementById('result').textContent = password;
+});
+</script>
 </body>
 </html>

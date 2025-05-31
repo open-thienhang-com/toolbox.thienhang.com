@@ -1,15 +1,72 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lập lịch nhắc việc (To-do list mini)</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lập lịch nhắc việc (To-do list)</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<style>
+  ul { list-style: none; padding-left: 0; }
+  li { display: flex; align-items: center; justify-content: space-between; padding: 4px 0; }
+</style>
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Lập lịch nhắc việc (To-do list mini)</h1>
-  <p class="text-gray-700">Tính năng: Lập lịch nhắc việc (To-do list mini)</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">46. Lập lịch nhắc việc (To-do list mini)</h1>
+
+<div class="mb-4">
+  <input id="taskInput" type="text" placeholder="Nhập việc cần làm..." class="w-full p-2 border rounded" />
+</div>
+<button id="addBtn" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 mb-4">Thêm việc</button>
+
+<ul id="taskList" class="bg-white p-4 rounded border max-w-md"></ul>
+
+<script>
+const taskInput = document.getElementById('taskInput');
+const addBtn = document.getElementById('addBtn');
+const taskList = document.getElementById('taskList');
+
+function saveTasks(tasks) {
+  localStorage.setItem('todoTasks', JSON.stringify(tasks));
+}
+
+function loadTasks() {
+  const tasks = JSON.parse(localStorage.getItem('todoTasks')) || [];
+  return tasks;
+}
+
+function renderTasks() {
+  const tasks = loadTasks();
+  taskList.innerHTML = '';
+  tasks.forEach((task, index) => {
+    const li = document.createElement('li');
+    li.textContent = task;
+    const btn = document.createElement('button');
+    btn.textContent = 'Xóa';
+    btn.className = 'ml-4 text-red-600 hover:text-red-800';
+    btn.addEventListener('click', () => {
+      tasks.splice(index, 1);
+      saveTasks(tasks);
+      renderTasks();
+    });
+    li.appendChild(btn);
+    taskList.appendChild(li);
+  });
+}
+
+addBtn.addEventListener('click', () => {
+  const task = taskInput.value.trim();
+  if (!task) {
+    alert('Vui lòng nhập việc cần làm.');
+    return;
+  }
+  const tasks = loadTasks();
+  tasks.push(task);
+  saveTasks(tasks);
+  renderTasks();
+  taskInput.value = '';
+});
+
+renderTasks();
+</script>
 </body>
 </html>

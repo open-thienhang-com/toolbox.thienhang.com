@@ -1,15 +1,57 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tạo hash HMAC-SHA256 (key + message)</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tạo hash HMAC-SHA256</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Tạo hash HMAC-SHA256 (key + message)</h1>
-  <p class="text-gray-700">Tính năng: Tạo hash HMAC-SHA256 (key + message)</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">57. Tạo hash HMAC-SHA256 (key + message)</h1>
+
+<label for="keyInput" class="block mb-2 font-semibold">Khóa bí mật (key):</label>
+<input id="keyInput" type="text" class="w-full p-2 border rounded mb-4" placeholder="Nhập key bí mật" />
+
+<label for="msgInput" class="block mb-2 font-semibold">Thông điệp (message):</label>
+<textarea id="msgInput" rows="5" class="w-full p-2 border rounded mb-4" placeholder="Nhập message"></textarea>
+
+<button id="generateBtn" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Tạo HMAC-SHA256</button>
+
+<div id="result" class="mt-4 p-4 bg-gray-100 border rounded font-mono break-words"></div>
+
+<script>
+async function hmacSha256(key, message) {
+  const encoder = new TextEncoder();
+  const keyData = encoder.encode(key);
+  const cryptoKey = await crypto.subtle.importKey(
+    'raw',
+    keyData,
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  );
+  const signature = await crypto.subtle.sign(
+    'HMAC',
+    cryptoKey,
+    encoder.encode(message)
+  );
+  return Array.from(new Uint8Array(signature)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+document.getElementById('generateBtn').addEventListener('click', async () => {
+  const key = document.getElementById('keyInput').value;
+  const msg = document.getElementById('msgInput').value;
+  if (!key || !msg) {
+    alert('Vui lòng nhập key và message.');
+    return;
+  }
+  try {
+    const hash = await hmacSha256(key, msg);
+    document.getElementById('result').textContent = hash;
+  } catch (e) {
+    document.getElementById('result').textContent = 'Lỗi: ' + e.message;
+  }
+});
+</script>
 </body>
 </html>

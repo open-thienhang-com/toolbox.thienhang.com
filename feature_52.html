@@ -1,15 +1,36 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Đổi chữ hoa/thường từng ký tự</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Đổi chữ hoa/thường từng ký tự</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<style>
+  pre { white-space: pre-wrap; word-break: break-word; }
+</style>
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Đổi chữ hoa/thường từng ký tự</h1>
-  <p class="text-gray-700">Tính năng: Đổi chữ hoa/thường từng ký tự</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">52. Đổi chữ hoa/thường từng ký tự</h1>
+<label for="inputText" class="block mb-2 font-semibold">Nhập chuỗi:</label>
+<textarea id="inputText" rows="5" class="w-full p-2 border rounded mb-4"></textarea>
+<button id="toggleBtn" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Đổi hoa/thường xen kẽ</button>
+<pre id="result" class="mt-4 p-4 bg-gray-100 border rounded"></pre>
+
+<script>
+document.getElementById('toggleBtn').addEventListener('click', () => {
+  const text = document.getElementById('inputText').value;
+  if (!text) {
+    alert('Vui lòng nhập chuỗi.');
+    return;
+  }
+  let result = '';
+  for(let i=0; i<text.length; i++) {
+    const c = text[i];
+    if (i % 2 === 0) result += c.toUpperCase();
+    else result += c.toLowerCase();
+  }
+  document.getElementById('result').textContent = result;
+});
+</script>
 </body>
 </html>

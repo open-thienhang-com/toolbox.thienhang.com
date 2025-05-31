@@ -1,15 +1,59 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tạo mã hóa vCard để lưu danh bạ</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tạo mã vCard</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Tạo mã hóa vCard để lưu danh bạ</h1>
-  <p class="text-gray-700">Tính năng: Tạo mã hóa vCard để lưu danh bạ</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">45. Tạo mã vCard để lưu danh bạ</h1>
+
+<label for="name" class="block mb-2 font-semibold">Họ và tên:</label>
+<input id="name" type="text" class="w-full p-2 border rounded mb-4" placeholder="Nguyễn Văn A" />
+
+<label for="phone" class="block mb-2 font-semibold">Số điện thoại:</label>
+<input id="phone" type="text" class="w-full p-2 border rounded mb-4" placeholder="0123456789" />
+
+<label for="email" class="block mb-2 font-semibold">Email:</label>
+<input id="email" type="email" class="w-full p-2 border rounded mb-4" placeholder="example@example.com" />
+
+<button id="generateBtn" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Tạo mã QR vCard</button>
+<div id="qrcode" class="mt-6"></div>
+
+<script>
+const qrcodeContainer = document.getElementById('qrcode');
+
+function createVCard(name, phone, email) {
+  return `BEGIN:VCARD
+VERSION:3.0
+FN:${name}
+TEL;TYPE=CELL:${phone}
+EMAIL:${email}
+END:VCARD`;
+}
+
+document.getElementById('generateBtn').addEventListener('click', () => {
+  const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const email = document.getElementById('email').value.trim();
+  if (!name) {
+    alert('Vui lòng nhập họ tên.');
+    return;
+  }
+  if (!phone && !email) {
+    alert('Vui lòng nhập ít nhất số điện thoại hoặc email.');
+    return;
+  }
+  qrcodeContainer.innerHTML = '';
+  const vcard = createVCard(name, phone, email);
+  new QRCode(qrcodeContainer, {
+    text: vcard,
+    width: 200,
+    height: 200,
+  });
+});
+</script>
 </body>
 </html>

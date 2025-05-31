@@ -1,15 +1,35 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tạo mã vạch EAN13</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tạo mã vạch EAN13</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Tạo mã vạch EAN13</h1>
-  <p class="text-gray-700">Tính năng: Tạo mã vạch EAN13</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">40. Tạo mã vạch EAN13</h1>
+<label for="eanInput" class="block mb-2 font-semibold">Nhập mã EAN13 (12 chữ số):</label>
+<input id="eanInput" type="text" maxlength="12" placeholder="Ví dụ: 123456789012" class="w-full p-2 border rounded mb-4" />
+<button id="generateBtn" class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Tạo mã vạch</button>
+
+<svg id="eanbarcode" class="mt-6"></svg>
+
+<script>
+  document.getElementById('generateBtn').addEventListener('click', () => {
+    const value = document.getElementById('eanInput').value.trim();
+    if (!/^\d{12}$/.test(value)) {
+      alert('Vui lòng nhập đúng 12 chữ số cho EAN13.');
+      return;
+    }
+    JsBarcode("#eanbarcode", value, {
+      format: "ean13",
+      lineColor: "#000",
+      width: 2,
+      height: 100,
+      displayValue: true
+    });
+  });
+</script>
 </body>
 </html>

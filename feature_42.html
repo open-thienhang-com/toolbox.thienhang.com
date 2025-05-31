@@ -1,15 +1,70 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nhận diện giọng nói (Speech-to-Text)</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nhận diện giọng nói (Speech-to-Text)</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<style>
+  #status {
+    font-weight: 600;
+    margin-top: 10px;
+  }
+</style>
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Nhận diện giọng nói (Speech-to-Text)</h1>
-  <p class="text-gray-700">Tính năng: Nhận diện giọng nói (Speech-to-Text)</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">42. Nhận diện giọng nói (Speech-to-Text)</h1>
+<button id="startBtn" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Bắt đầu nói</button>
+<button id="stopBtn" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 ml-2">Dừng</button>
+<div id="status" class="text-gray-700 mt-2">Trạng thái: Đang chờ</div>
+<label for="transcript" class="block mt-4 mb-2 font-semibold">Nội dung nhận dạng:</label>
+<textarea id="transcript" rows="6" readonly class="w-full p-2 border rounded bg-gray-100"></textarea>
+
+<script>
+  const startBtn = document.getElementById('startBtn');
+  const stopBtn = document.getElementById('stopBtn');
+  const statusEl = document.getElementById('status');
+  const transcriptEl = document.getElementById('transcript');
+
+  let recognition;
+
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    statusEl.textContent = 'Trình duyệt không hỗ trợ nhận diện giọng nói.';
+    startBtn.disabled = true;
+    stopBtn.disabled = true;
+  } else {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SpeechRecognition();
+    recognition.lang = 'vi-VN';
+    recognition.interimResults = false;
+    recognition.continuous = false;
+
+    recognition.onstart = () => {
+      statusEl.textContent = 'Đang nghe...';
+    };
+
+    recognition.onresult = (event) => {
+      let transcript = event.results[0][0].transcript;
+      transcriptEl.value += transcript + '\n';
+    };
+
+    recognition.onerror = (event) => {
+      statusEl.textContent = 'Lỗi: ' + event.error;
+    };
+
+    recognition.onend = () => {
+      statusEl.textContent = 'Đã dừng nhận diện.';
+    };
+  }
+
+  startBtn.addEventListener('click', () => {
+    transcriptEl.value = '';
+    recognition.start();
+  });
+
+  stopBtn.addEventListener('click', () => {
+    recognition.stop();
+  });
+</script>
 </body>
 </html>

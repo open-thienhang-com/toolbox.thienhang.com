@@ -1,15 +1,82 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Đổi số thành chữ (viết số tiền bằng chữ tiếng Việt)</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Đổi số thành chữ (tiếng Việt)</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<style>
+  pre { white-space: pre-wrap; word-break: break-word; }
+</style>
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Đổi số thành chữ (viết số tiền bằng chữ tiếng Việt)</h1>
-  <p class="text-gray-700">Tính năng: Đổi số thành chữ (viết số tiền bằng chữ tiếng Việt)</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">38. Đổi số thành chữ (tiếng Việt)</h1>
+<label for="numberInput" class="block mb-2 font-semibold">Nhập số nguyên dương (<= 999999999999):</label>
+<input id="numberInput" type="number" min="0" max="999999999999" class="w-full p-2 border rounded mb-4" />
+<button id="convertBtn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Đổi thành chữ</button>
+<pre id="result" class="mt-4 p-4 bg-gray-100 border rounded"></pre>
+
+<script>
+// Hàm chuyển số thành chữ tiếng Việt (hỗ trợ đến nghìn tỷ)
+const numberWords = ["không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
+const units = ["", "nghìn", "triệu", "tỷ"];
+
+function readTriple(num) {
+  let hundred = Math.floor(num / 100);
+  let ten = Math.floor((num % 100) / 10);
+  let one = num % 10;
+  let str = "";
+
+  if (hundred > 0) {
+    str += numberWords[hundred] + " trăm";
+    if (ten === 0 && one > 0) str += " linh";
+  }
+
+  if (ten > 1) {
+    str += " " + numberWords[ten] + " mươi";
+    if (one === 1) str += " mốt";
+    else if (one === 4) str += " tư";
+    else if (one === 5) str += " lăm";
+    else if (one > 0) str += " " + numberWords[one];
+  } else if (ten === 1) {
+    str += " mười";
+    if (one === 1) str += " một";
+    else if (one === 4) str += " tư";
+    else if (one === 5) str += " lăm";
+    else if (one > 0) str += " " + numberWords[one];
+  } else if (one > 0) {
+    str += " " + numberWords[one];
+  }
+  return str.trim();
+}
+
+function numberToVietnamese(n) {
+  if (n === 0) return "không";
+  let str = "";
+  let unitIndex = 0;
+
+  while (n > 0) {
+    let triple = n % 1000;
+    if (triple > 0) {
+      let tripleStr = readTriple(triple);
+      if (unitIndex > 0) tripleStr += " " + units[unitIndex];
+      str = tripleStr + " " + str;
+    }
+    n = Math.floor(n / 1000);
+    unitIndex++;
+  }
+  return str.trim();
+}
+
+document.getElementById('convertBtn').addEventListener('click', () => {
+  let num = parseInt(document.getElementById('numberInput').value);
+  if (isNaN(num) || num < 0 || num > 999999999999) {
+    alert('Vui lòng nhập số nguyên từ 0 đến 999.999.999.999');
+    return;
+  }
+  const result = numberToVietnamese(num);
+  document.getElementById('result').textContent = result;
+});
+</script>
 </body>
 </html>

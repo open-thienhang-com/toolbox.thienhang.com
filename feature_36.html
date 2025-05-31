@@ -1,15 +1,44 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tính lãi suất đơn giản</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tính lãi suất đơn giản</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Tính lãi suất đơn giản</h1>
-  <p class="text-gray-700">Tính năng: Tính lãi suất đơn giản</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">36. Tính lãi suất đơn giản</h1>
+<label for="principal" class="block mb-2 font-semibold">Số tiền gốc (VND):</label>
+<input id="principal" type="number" min="0" class="w-full p-2 border rounded mb-4" placeholder="Ví dụ: 10000000" />
+
+<label for="rate" class="block mb-2 font-semibold">Lãi suất (%/năm):</label>
+<input id="rate" type="number" min="0" step="0.01" class="w-full p-2 border rounded mb-4" placeholder="Ví dụ: 7.5" />
+
+<label for="time" class="block mb-2 font-semibold">Thời gian (năm):</label>
+<input id="time" type="number" min="0" step="0.01" class="w-full p-2 border rounded mb-4" placeholder="Ví dụ: 2" />
+
+<button id="calcBtn" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Tính lãi</button>
+
+<div id="result" class="mt-4 p-4 bg-gray-100 border rounded"></div>
+
+<script>
+document.getElementById('calcBtn').addEventListener('click', () => {
+  const P = parseFloat(document.getElementById('principal').value);
+  const r = parseFloat(document.getElementById('rate').value);
+  const t = parseFloat(document.getElementById('time').value);
+
+  if (isNaN(P) || P < 0 || isNaN(r) || r < 0 || isNaN(t) || t < 0) {
+    alert('Vui lòng nhập giá trị hợp lệ cho tất cả các trường.');
+    return;
+  }
+  const interest = P * r / 100 * t;
+  const total = P + interest;
+
+  document.getElementById('result').innerHTML = `
+    <p>Lãi suất đơn giản: <strong>${interest.toLocaleString()} VND</strong></p>
+    <p>Tổng số tiền sau ${t} năm: <strong>${total.toLocaleString()} VND</strong></p>
+  `;
+});
+</script>
 </body>
 </html>

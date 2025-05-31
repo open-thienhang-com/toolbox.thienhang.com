@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chuyển hệ 10 sang nhị phân</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-50 p-6 min-h-screen font-sans">
+  <h1 class="text-3xl font-bold mb-4">12. Chuyển hệ 10 sang nhị phân</h1>
+  <label for="decInput" class="block mb-2 font-semibold">Nhập số hệ 10:</label>
+  <input id="decInput" type="number" min="0" placeholder="Nhập số nguyên không âm..." class="w-full p-2 border rounded mb-4" />
+  <button id="convertBinBtn" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Chuyển sang nhị phân</button>
+  <div id="binResult" class="mt-4 p-4 bg-gray-100 border rounded break-words font-mono"></div>
+
+  <script>
+    document.getElementById('convertBinBtn').addEventListener('click', () => {
+      const num = Number(document.getElementById('decInput').value);
+      if (isNaN(num) || num < 0 || !Number.isInteger(num)) {
+        alert('Vui lòng nhập số nguyên không âm hợp lệ.');
+        return;
+      }
+      const bin = num.toString(2);
+      document.getElementById('binResult').textContent = bin;
+    });
+  </script>
+</body>
+</html>

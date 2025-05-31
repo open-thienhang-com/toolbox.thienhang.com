@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tạo password ngẫu nhiên</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-50 p-6 min-h-screen font-sans">
+  <h1 class="text-3xl font-bold mb-4">14. Tạo password ngẫu nhiên</h1>
+  <label for="lengthInput" class="block mb-2 font-semibold">Độ dài mật khẩu (6-64):</label>
+  <input id="lengthInput" type="number" min="6" max="64" value="12" class="w-full p-2 border rounded mb-4" />
+  <button id="generateBtn" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Tạo mật khẩu</button>
+  <div id="passwordResult" class="mt-4 p-4 bg-gray-100 border rounded font-mono break-words"></div>
+
+  <script>
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_-+=<>?";
+    document.getElementById('generateBtn').addEventListener('click', () => {
+      const len = Number(document.getElementById('lengthInput').value);
+      if (isNaN(len) || len < 6 || len > 64) {
+        alert('Vui lòng nhập độ dài mật khẩu hợp lệ từ 6 đến 64.');
+        return;
+      }
+      let pass = '';
+      for(let i=0; i<len; i++) {
+        pass += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      document.getElementById('passwordResult').textContent = pass;
+    });
+  </script>
+</body>
+</html>

@@ -1,160 +1,163 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Toolbox Basic - JS thuần</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 700px;
-      margin: 20px auto;
-      padding: 0 15px;
-    }
-    h2 {
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 5px;
-    }
-    section {
-      margin-bottom: 30px;
-    }
-    input, textarea, button {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      box-sizing: border-box;
-      font-size: 16px;
-    }
-    button {
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    .result {
-      margin-top: 10px;
-      background: #f4f4f4;
-      padding: 10px;
-      word-break: break-word;
-      white-space: pre-wrap;
-    }
-    #qrcode {
-      margin-top: 10px;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Toolbox</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<style>
+  body { height: 100vh; }
+  #sidebar { height: 100vh; overflow-y: auto; }
+  #content { overflow-y: auto; height: 100vh; }
+</style>
 </head>
-<body>
+<body class="flex">
 
-  <h1>Toolbox Basic (JS thuần)</h1>
+  <aside id="sidebar" class="w-64 bg-gray-800 text-white flex flex-col p-4">
+    <h1 class="text-2xl font-bold mb-4">Toolbox 100 Features</h1>
+    <input id="searchInput" type="text" placeholder="Tìm kiếm..." class="mb-4 p-2 rounded text-black" />
+    <nav id="menu" class="flex-grow overflow-auto">
+      <ul class="space-y-2" id="menuList">
+        <!-- Menu items will be inserted here -->
+      </ul>
+    </nav>
+  </aside>
 
-  <!-- QR Code Generator -->
-  <section>
-    <h2>1. Sinh QR Code</h2>
-    <label for="qrtext">Nhập nội dung để tạo QR Code:</label>
-    <input id="qrtext" type="text" placeholder="Nhập nội dung..." />
-    <button id="generateQR">Tạo QR Code</button>
-    <div id="qrcode"></div>
-  </section>
+  <main id="content" class="flex-grow p-6 bg-gray-100">
+    <iframe id="featureFrame" name="featureFrame" src="" class="w-full h-full border rounded" frameborder="0"></iframe>
+  </main>
 
-  <!-- Hash MD5 -->
-  <section>
-    <h2>2. Hash MD5</h2>
-    <label for="md5text">Nhập chuỗi để băm MD5:</label>
-    <input id="md5text" type="text" placeholder="Nhập chuỗi..." />
-    <button id="hashMD5">Tính MD5</button>
-    <div id="md5result" class="result"></div>
-  </section>
+<script>
+  const features = [
+    "Sinh QR Code",
+    "Hash MD5",
+    "Giải mã JWT",
+    "Hash SHA-1",
+    "Hash SHA-256",
+    "Hash SHA-512",
+    "Mã hóa Base64",
+    "Giải mã Base64",
+    "Mã hóa URL encode",
+    "Giải mã URL decode",
+    "Tạo UUID v4",
+    "Chuyển đổi số hệ 10 sang nhị phân",
+    "Chuyển đổi nhị phân sang hệ 10",
+    "Tạo password ngẫu nhiên",
+    "Kiểm tra độ mạnh password",
+    "Đếm số ký tự, từ trong văn bản",
+    "So sánh hai chuỗi không phân biệt hoa thường",
+    "Mã hóa Caesar cipher",
+    "Giải mã Caesar cipher",
+    "Chuyển đổi JSON sang CSV",
+    "Chuyển đổi CSV sang JSON",
+    "Kiểm tra định dạng email",
+    "Kiểm tra định dạng số điện thoại",
+    "Kiểm tra định dạng IP (IPv4)",
+    "Kiểm tra định dạng URL",
+    "Tính toán ngày tháng (cách nhau bao nhiêu ngày)",
+    "Tính toán tuổi từ ngày sinh",
+    "Chuyển đổi độ C sang độ F",
+    "Chuyển đổi độ F sang độ C",
+    "Tạo mã màu ngẫu nhiên HEX",
+    "Kiểm tra tính hợp lệ màu HEX",
+    "Tính tổng/ trung bình / max / min của dãy số",
+    "Tạo dãy số Fibonacci",
+    "Kiểm tra số nguyên tố",
+    "Tính giai thừa",
+    "Tính lãi suất đơn giản",
+    "Tính BMI",
+    "Đổi số thành chữ (viết số tiền bằng chữ tiếng Việt)",
+    "Tạo barcode 1D (Code128)",
+    "Tạo mã vạch EAN13",
+    "Chuyển văn bản thành giọng nói (Text-to-Speech)",
+    "Nhận diện giọng nói (Speech-to-Text)",
+    "Kiểm tra đạo văn đơn giản",
+    "Tạo mã hóa QR với logo (nâng cao)",
+    "Tạo mã hóa vCard để lưu danh bạ",
+    "Lập lịch nhắc việc (To-do list mini)",
+    "Đồng hồ đếm ngược",
+    "Đồng hồ đếm lên (stopwatch)",
+    "Hiển thị thời gian thực",
+    "Chuyển đổi timezone thời gian",
+    "Kiểm tra checksum MD5 file upload",
+    "Đổi chữ hoa/thường từng ký tự",
+    "Chuẩn hóa text (loại bỏ dấu, khoảng trắng thừa)",
+    "So sánh 2 file text khác nhau (diff)",
+    "Chuyển đổi Markdown sang HTML",
+    "Chuyển đổi HTML sang Markdown",
+    "Tạo hash HMAC-SHA256 (key + message)",
+    "Tạo mật khẩu từ cụm từ (passphrase generator)",
+    "Mã hóa AES-256 (chuẩn)",
+    "Giải mã AES-256",
+    "Mã hóa XOR đơn giản",
+    "Lấy thông tin trình duyệt (user agent)",
+    "Lấy thông tin IP công khai (API)",
+    "Mã hóa ROT13",
+    "Giải mã ROT13",
+    "Tạo barcode QR code cho Wifi kết nối",
+    "Tạo mã vạch cho URL rút gọn",
+    "Tạo mã QR cho thanh toán (Ví dụ: Momo, ZaloPay)",
+    "Tính toán chu vi, diện tích hình học cơ bản (hình tròn, hình chữ nhật,...)",
+    "Tạo random color palette",
+    "Chuyển đổi văn bản sang Emoji",
+    "Mã hóa văn bản bằng Base32",
+    "Giải mã Base32",
+    "Tính số ngày trong tháng",
+    "Tính ngày lễ, ngày đặc biệt theo lịch (ví dụ Tết)",
+    "Tạo text art (ASCII art đơn giản)",
+    "Tạo mã hóa HTML entities",
+    "Giải mã HTML entities",
+    "So sánh similarity giữa 2 đoạn text",
+    "Lấy dữ liệu meta từ URL",
+    "Tạo biểu đồ cơ bản (line, bar) với canvas",
+    "Chuyển đổi Markdown sang PDF",
+    "Đếm ký tự đặc biệt trong chuỗi",
+    "Tạo chuỗi slug URL thân thiện",
+    "Kiểm tra đăng nhập JWT expiry (token hết hạn?)",
+    "Giải mã JWT header",
+    "Kiểm tra passphrase có đủ mạnh (entropy)",
+    "Kiểm tra JSON schema đơn giản",
+    "Tạo mã QR lịch sự kiện (iCalendar)",
+    "Tính toán phí vận chuyển theo cân nặng",
+    "Chuyển đổi thời gian sang timestamp Unix",
+    "Chuyển timestamp Unix sang ngày giờ readable",
+    "Tạo random số nguyên trong khoảng",
+    "Mã hóa Caesar cipher nâng cao (key động)",
+    "Lấy tọa độ GPS hiện tại",
+    "Kiểm tra trạng thái kết nối Internet",
+    "Tạo thông báo Web Notification",
+    "Lấy thông tin hệ điều hành",
+    "Lấy thông tin phần cứng (nếu có)",
+    "Đổi chữ hoa/thường xen kẽ (sPoNgEbOb text)"
+  ];
 
-  <!-- Check JWT -->
-  <section>
-    <h2>3. Giải mã JWT</h2>
-    <label for="jwttext">Nhập JWT:</label>
-    <textarea id="jwttext" rows="3" placeholder="Nhập JWT ở đây..."></textarea>
-    <button id="decodeJWT">Giải mã Payload</button>
-    <div id="jwtresult" class="result"></div>
-  </section>
+  const menuList = document.getElementById('menuList');
+  const searchInput = document.getElementById('searchInput');
 
-  <!-- Import thư viện QRCode.js và js-md5 từ CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/js-md5@0.7.3/build/md5.min.js"></script>
-
-  <script>
-    // 1. QR Code generator
-    const qrcodeContainer = document.getElementById('qrcode');
-    document.getElementById('generateQR').addEventListener('click', () => {
-      const text = document.getElementById('qrtext').value.trim();
-      qrcodeContainer.innerHTML = ''; // xóa QR cũ
-      if (!text) {
-        alert('Vui lòng nhập nội dung để tạo QR Code.');
-        return;
-      }
-      new QRCode(qrcodeContainer, {
-        text: text,
-        width: 180,
-        height: 180,
-      });
-    });
-
-    // 2. MD5 hash
-    document.getElementById('hashMD5').addEventListener('click', () => {
-      const text = document.getElementById('md5text').value;
-      if (!text) {
-        alert('Vui lòng nhập chuỗi để băm.');
-        return;
-      }
-      const hash = md5(text);
-      document.getElementById('md5result').textContent = hash;
-    });
-
-    // 3. Decode JWT payload
-    function base64UrlDecode(str) {
-      // Thay - và _ về + và / rồi decode base64
-      str = str.replace(/-/g, '+').replace(/_/g, '/');
-      // padding =
-      while (str.length % 4) {
-        str += '=';
-      }
-      try {
-        return decodeURIComponent(
-          atob(str)
-            .split('')
-            .map(function(c) {
-              return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            })
-            .join('')
-        );
-      } catch (e) {
-        return null;
-      }
+  function renderMenu(filter = '') {
+    menuList.innerHTML = '';
+    const filtered = features
+      .map((f, i) => ({name: f, index: i + 1}))
+      .filter(f => f.name.toLowerCase().includes(filter.toLowerCase()));
+    if(filtered.length === 0) {
+      menuList.innerHTML = '<li class="text-gray-400 p-2">Không tìm thấy kết quả</li>';
+      return;
     }
-
-    document.getElementById('decodeJWT').addEventListener('click', () => {
-      const jwt = document.getElementById('jwttext').value.trim();
-      const resultEl = document.getElementById('jwtresult');
-      resultEl.textContent = '';
-      if (!jwt) {
-        alert('Vui lòng nhập JWT.');
-        return;
-      }
-
-      const parts = jwt.split('.');
-      if (parts.length !== 3) {
-        resultEl.textContent = 'JWT không hợp lệ (cần 3 phần phân cách bằng dấu chấm).';
-        return;
-      }
-
-      const payload = base64UrlDecode(parts[1]);
-      if (!payload) {
-        resultEl.textContent = 'Giải mã payload thất bại.';
-        return;
-      }
-
-      try {
-        const obj = JSON.parse(payload);
-        resultEl.textContent = JSON.stringify(obj, null, 2);
-      } catch (e) {
-        resultEl.textContent = 'Payload không phải JSON hợp lệ.';
-      }
+    filtered.forEach(f => {
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="feature_${f.index}.html" target="featureFrame" class="block p-2 rounded hover:bg-gray-700">${f.name}</a>`;
+      menuList.appendChild(li);
     });
-  </script>
+  }
+
+  searchInput.addEventListener('input', () => {
+    renderMenu(searchInput.value);
+  });
+
+  // Render full menu on load
+  renderMenu();
+
+</script>
 
 </body>
 </html>

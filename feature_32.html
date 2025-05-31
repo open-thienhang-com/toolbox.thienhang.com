@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tính tổng, trung bình, max, min</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-50 p-6 min-h-screen font-sans">
+  <h1 class="text-3xl font-bold mb-4">32. Tính tổng, trung bình, max, min của dãy số</h1>
+  <label for="numbersInput" class="block mb-2 font-semibold">Nhập các số (cách nhau dấu phẩy):</label>
+  <input id="numbersInput" type="text" placeholder="Ví dụ: 1, 2, 3, 4, 5" class="w-full p-2 border rounded mb-4" />
+  <button id="calculateBtn" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Tính toán</button>
+  <div id="result" class="mt-4 p-4 border rounded whitespace-pre-line"></div>
+
+  <script>
+    document.getElementById('calculateBtn').addEventListener('click', () => {
+      const input = document.getElementById('numbersInput').value.trim();
+      if (!input) {
+        alert('Vui lòng nhập dãy số.');
+        return;
+      }
+      const numbers = input.split(',').map(s => parseFloat(s.trim())).filter(n => !isNaN(n));
+      if (numbers.length === 0) {
+        alert('Không có số hợp lệ để tính.');
+        return;
+      }
+      const sum = numbers.reduce((a,b) => a + b, 0);
+      const avg = sum / numbers.length;
+      const max = Math.max(...numbers);
+      const min = Math.min(...numbers);
+
+      document.getElementById('result').textContent =
+        `Tổng: ${sum}\n` +
+        `Trung bình: ${avg}\n` +
+        `Giá trị lớn nhất: ${max}\n` +
+        `Giá trị nhỏ nhất: ${min}`;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chuyển nhị phân sang hệ 10</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-50 p-6 min-h-screen font-sans">
+  <h1 class="text-3xl font-bold mb-4">13. Chuyển nhị phân sang hệ 10</h1>
+  <label for="binInput" class="block mb-2 font-semibold">Nhập số nhị phân:</label>
+  <input id="binInput" type="text" placeholder="Nhập số nhị phân chỉ gồm 0 và 1..." class="w-full p-2 border rounded mb-4" />
+  <button id="convertDecBtn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Chuyển sang hệ 10</button>
+  <div id="decResult" class="mt-4 p-4 bg-gray-100 border rounded break-words font-mono"></div>
+
+  <script>
+    document.getElementById('convertDecBtn').addEventListener('click', () => {
+      const bin = document.getElementById('binInput').value.trim();
+      if (!/^[01]+$/.test(bin)) {
+        alert('Vui lòng nhập chuỗi nhị phân hợp lệ (chỉ gồm 0 và 1).');
+        return;
+      }
+      const dec = parseInt(bin, 2);
+      document.getElementById('decResult').textContent = dec.toString(10);
+    });
+  </script>
+</body>
+</html>

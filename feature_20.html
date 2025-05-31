@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chuyển đổi JSON sang CSV</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<style>
+  textarea { font-family: monospace; }
+</style>
+</head>
+<body class="bg-gray-50 p-6 min-h-screen font-sans">
+  <h1 class="text-3xl font-bold mb-4">20. Chuyển đổi JSON sang CSV</h1>
+  <label for="jsonInput" class="block mb-2 font-semibold">Nhập JSON (mảng đối tượng):</label>
+  <textarea id="jsonInput" rows="10" class="w-full p-2 border rounded mb-4" placeholder='Ví dụ: [{"name":"A","age":30},{"name":"B","age":25}]'></textarea>
+  <button id="convertBtn" class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Chuyển đổi sang CSV</button>
+  <label for="csvOutput" class="block mt-4 mb-2 font-semibold">Kết quả CSV:</label>
+  <textarea id="csvOutput" rows="10" readonly class="w-full p-2 border rounded bg-gray-100"></textarea>
+
+  <script>
+    function jsonToCsv(jsonArray) {
+      if (!Array.isArray(jsonArray) || jsonArray.length === 0) return '';
+      const keys = Object.keys(jsonArray[0]);
+      const csvRows = [keys.join(',')];
+
+      jsonArray.forEach(obj => {
+        const values = keys.map(k => {
+          let val = obj[k] === null || obj[k] === undefined ? '' : obj[k];
+          if (typeof val === 'string') {
+            // Escape quotes by doubling them, wrap in quotes if contains comma/newline
+            val = val.replace(/"/g, '""');
+            if (val.search(/("|,|\n)/g) >= 0) {
+              val = `"${val}"`;
+            }
+          }
+          return val;
+        });
+        csvRows.push(values.join(','));
+      });
+
+      return csvRows.join('\n');
+    }
+
+    document.getElementById('convertBtn').addEventListener('click', () => {
+      const input = document.getElementById('jsonInput').value.trim();
+      if (!input) {
+        alert('Vui lòng nhập dữ liệu JSON.');
+        return;
+      }
+      try {
+        const arr = JSON.parse(input);
+        const csv = jsonToCsv(arr);
+        if (!csv) {
+          alert('JSON phải là mảng đối tượng không rỗng.');
+          return;
+        }
+        document.getElementById('csvOutput').value = csv;
+      } catch (e) {
+        alert('Dữ liệu JSON không hợp lệ.');
+      }
+    });
+  </script>
+</body>
+</html>

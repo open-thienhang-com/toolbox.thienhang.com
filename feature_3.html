@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Giải mã JWT</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-50 p-6 min-h-screen font-sans">
+  <h1 class="text-3xl font-bold mb-4">3. Giải mã JWT</h1>
+  <label for="jwttext" class="block mb-2 font-semibold">Nhập JWT:</label>
+  <textarea id="jwttext" rows="4" placeholder="Nhập JWT ở đây..." class="w-full p-2 border rounded mb-4"></textarea>
+  <button id="decodeJWT" class="px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700">Giải mã Payload</button>
+  <pre id="jwtresult" class="mt-4 p-4 bg-gray-100 border rounded overflow-x-auto whitespace-pre-wrap"></pre>
+
+  <script>
+    function base64UrlDecode(str) {
+      str = str.replace(/-/g, '+').replace(/_/g, '/');
+      while (str.length % 4) {
+        str += '=';
+      }
+      try {
+        return decodeURIComponent(
+          atob(str)
+            .split('')
+            .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+            .join('')
+        );
+      } catch {
+        return null;
+      }
+    }
+
+    document.getElementById('decodeJWT').addEventListener('click', () => {
+      const jwt = document.getElementById('jwttext').value.trim();
+      const resultEl = document.getElementById('jwtresult');
+      resultEl.textContent = '';
+      if (!jwt) {
+        alert('Vui lòng nhập JWT.');
+        return;
+      }
+      const parts = jwt.split('.');
+      if (parts.length !== 3) {
+        resultEl.textContent = 'JWT không hợp lệ (cần 3 phần phân cách bằng dấu chấm).';
+        return;
+      }
+      const payload = base64UrlDecode(parts[1]);
+      if (!payload) {
+        resultEl.textContent = 'Giải mã payload thất bại.';
+        return;
+      }
+      try {
+        const obj = JSON.parse(payload);
+        resultEl.textContent = JSON.stringify(obj, null, 2);
+      } catch {
+        resultEl.textContent = 'Payload không phải JSON hợp lệ.';
+      }
+    });
+  </script>
+</body>
+</html>

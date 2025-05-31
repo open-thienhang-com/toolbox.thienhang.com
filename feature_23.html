@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kiểm tra định dạng số điện thoại</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-50 p-6 min-h-screen font-sans">
+  <h1 class="text-3xl font-bold mb-4">23. Kiểm tra định dạng số điện thoại Việt Nam</h1>
+  <label for="phoneInput" class="block mb-2 font-semibold">Nhập số điện thoại:</label>
+  <input id="phoneInput" type="text" class="w-full p-2 border rounded mb-4" placeholder="Nhập số điện thoại..." />
+  <button id="checkBtn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Kiểm tra</button>
+  <div id="result" class="mt-4 p-4 border rounded"></div>
+
+  <script>
+    // Regex đơn giản cho số điện thoại Việt Nam 10 hoặc 11 số, bắt đầu bằng 0
+    const phoneRegex = /^(0|\+84)(3[2-9]|5[6|8|9]|7[0|6-9]|8[1-5]|9[0-9])[0-9]{7}$/;
+    document.getElementById('checkBtn').addEventListener('click', () => {
+      const phone = document.getElementById('phoneInput').value.trim();
+      const resDiv = document.getElementById('result');
+      if (!phone) {
+        alert('Vui lòng nhập số điện thoại.');
+        return;
+      }
+      if (phoneRegex.test(phone)) {
+        resDiv.textContent = 'Số điện thoại hợp lệ.';
+        resDiv.className = 'mt-4 p-4 border rounded text-green-700 bg-green-100';
+      } else {
+        resDiv.textContent = 'Số điện thoại không hợp lệ.';
+        resDiv.className = 'mt-4 p-4 border rounded text-red-700 bg-red-100';
+      }
+    });
+  </script>
+</body>
+</html>

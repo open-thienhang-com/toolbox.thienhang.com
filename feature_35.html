@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tính giai thừa</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<style>
+  pre { white-space: pre-wrap; word-break: break-word; }
+</style>
+</head>
+<body class="bg-gray-50 p-6 min-h-screen font-sans">
+  <h1 class="text-3xl font-bold mb-4">35. Tính giai thừa</h1>
+  <label for="factInput" class="block mb-2 font-semibold">Nhập số nguyên không âm:</label>
+  <input id="factInput" type="number" min="0" max="170" class="w-full p-2 border rounded mb-4" />
+  <button id="calcBtn" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Tính giai thừa</button>
+  <pre id="result" class="mt-4 p-4 border rounded bg-gray-100"></pre>
+
+  <script>
+    function factorial(n) {
+      if (n === 0 || n === 1) return 1;
+      let res = 1;
+      for (let i = 2; i <= n; i++) {
+        res *= i;
+      }
+      return res;
+    }
+
+    document.getElementById('calcBtn').addEventListener('click', () => {
+      const n = parseInt(document.getElementById('factInput').value);
+      if (isNaN(n) || n < 0 || n > 170) {
+        alert('Vui lòng nhập số nguyên từ 0 đến 170 (giới hạn do JS Number).');
+        return;
+      }
+      const fact = factorial(n);
+      document.getElementById('result').textContent = `${n}! = ${fact}`;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chuyển đổi độ F sang độ C</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-50 p-6 min-h-screen font-sans">
+  <h1 class="text-3xl font-bold mb-4">29. Chuyển đổi độ F sang độ C</h1>
+  <label for="fahrenheitInput" class="block mb-2 font-semibold">Nhập nhiệt độ (°F):</label>
+  <input id="fahrenheitInput" type="number" step="0.1" class="w-full p-2 border rounded mb-4" />
+  <button id="convertBtn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Chuyển đổi</button>
+  <div id="result" class="mt-4 p-4 bg-gray-100 border rounded"></div>
+
+  <script>
+    document.getElementById('convertBtn').addEventListener('click', () => {
+      const fahrenheit = parseFloat(document.getElementById('fahrenheitInput').value);
+      if (isNaN(fahrenheit)) {
+        alert('Vui lòng nhập nhiệt độ hợp lệ.');
+        return;
+      }
+      const celsius = (fahrenheit - 32) * 5 / 9;
+      document.getElementById('result').textContent = `${fahrenheit}°F = ${celsius.toFixed(2)}°C`;
+    });
+  </script>
+</body>
+</html>

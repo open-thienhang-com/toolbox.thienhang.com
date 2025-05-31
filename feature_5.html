@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hash SHA-256</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-50 p-6 min-h-screen font-sans">
+  <h1 class="text-3xl font-bold mb-4">5. Hash SHA-256</h1>
+  <label for="sha256text" class="block mb-2 font-semibold">Nhập chuỗi để băm SHA-256:</label>
+  <input id="sha256text" type="text" placeholder="Nhập chuỗi..." class="w-full p-2 border rounded mb-4" />
+  <button id="hashSHA256" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Tính SHA-256</button>
+  <div id="sha256result" class="mt-4 p-4 bg-gray-100 border rounded break-words"></div>
+
+  <script>
+    async function sha256(str) {
+      const buf = new TextEncoder().encode(str);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', buf);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+    document.getElementById('hashSHA256').addEventListener('click', async () => {
+      const text = document.getElementById('sha256text').value;
+      if (!text) {
+        alert('Vui lòng nhập chuỗi.');
+        return;
+      }
+      const hash = await sha256(text);
+      document.getElementById('sha256result').textContent = hash;
+    });
+  </script>
+</body>
+</html>

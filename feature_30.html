@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tạo mã màu HEX ngẫu nhiên</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<style>
+  #colorBox {
+    width: 100px;
+    height: 100px;
+    border-radius: 0.5rem;
+  }
+</style>
+</head>
+<body class="bg-gray-50 p-6 min-h-screen font-sans">
+  <h1 class="text-3xl font-bold mb-4">30. Tạo mã màu HEX ngẫu nhiên</h1>
+  <button id="generateBtn" class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Tạo màu mới</button>
+  <div id="colorResult" class="mt-4 text-xl font-mono"></div>
+  <div id="colorBox" class="mt-4 border"></div>
+
+  <script>
+    function randomHexColor() {
+      return '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+    }
+
+    document.getElementById('generateBtn').addEventListener('click', () => {
+      const color = randomHexColor();
+      document.getElementById('colorResult').textContent = color;
+      document.getElementById('colorBox').style.backgroundColor = color;
+    });
+
+    // Tạo màu khi tải trang lần đầu
+    document.getElementById('generateBtn').click();
+  </script>
+</body>
+</html>

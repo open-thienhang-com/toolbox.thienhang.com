@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Giải mã URL decode</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-50 p-6 min-h-screen font-sans">
+  <h1 class="text-3xl font-bold mb-4">10. Giải mã URL decode</h1>
+  <label for="urldecodeinput" class="block mb-2 font-semibold">Nhập chuỗi URL đã mã hóa:</label>
+  <input id="urldecodeinput" type="text" placeholder="Nhập chuỗi đã encode..." class="w-full p-2 border rounded mb-4" />
+  <button id="decodeUrlBtn" class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Giải mã URL</button>
+  <div id="urldecoded" class="mt-4 p-4 bg-gray-100 border rounded break-words"></div>
+
+  <script>
+    document.getElementById('decodeUrlBtn').addEventListener('click', () => {
+      const text = document.getElementById('urldecodeinput').value;
+      if (!text) {
+        alert('Vui lòng nhập chuỗi.');
+        return;
+      }
+      try {
+        const decoded = decodeURIComponent(text);
+        document.getElementById('urldecoded').textContent = decoded;
+      } catch {
+        alert('Chuỗi không hợp lệ hoặc không thể giải mã.');
+      }
+    });
+  </script>
+</body>
+</html>

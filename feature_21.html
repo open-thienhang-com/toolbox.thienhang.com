@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chuyển đổi CSV sang JSON</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<style>
+  textarea { font-family: monospace; }
+</style>
+</head>
+<body class="bg-gray-50 p-6 min-h-screen font-sans">
+  <h1 class="text-3xl font-bold mb-4">21. Chuyển đổi CSV sang JSON</h1>
+  <label for="csvInput" class="block mb-2 font-semibold">Nhập dữ liệu CSV:</label>
+  <textarea id="csvInput" rows="10" class="w-full p-2 border rounded mb-4" placeholder="name,age&#10;Alice,30&#10;Bob,25"></textarea>
+  <button id="convertBtn" class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Chuyển đổi sang JSON</button>
+  <label for="jsonOutput" class="block mt-4 mb-2 font-semibold">Kết quả JSON:</label>
+  <textarea id="jsonOutput" rows="10" readonly class="w-full p-2 border rounded bg-gray-100"></textarea>
+
+  <script>
+    function csvToJson(csv) {
+      const lines = csv.trim().split('\n');
+      if (lines.length < 2) return [];
+      const headers = lines[0].split(',');
+      const result = [];
+
+      for (let i = 1; i < lines.length; i++) {
+        const obj = {};
+        const currentLine = lines[i].split(',');
+
+        headers.forEach((header, index) => {
+          obj[header.trim()] = currentLine[index] ? currentLine[index].trim() : '';
+        });
+        result.push(obj);
+      }
+      return result;
+    }
+
+    document.getElementById('convertBtn').addEventListener('click', () => {
+      const csv = document.getElementById('csvInput').value;
+      if (!csv.trim()) {
+        alert('Vui lòng nhập dữ liệu CSV.');
+        return;
+      }
+      try {
+        const json = csvToJson(csv);
+        document.getElementById('jsonOutput').value = JSON.stringify(json, null, 2);
+      } catch (e) {
+        alert('Lỗi khi chuyển đổi CSV sang JSON.');
+      }
+    });
+  </script>
+</body>
+</html>

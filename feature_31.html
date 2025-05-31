@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kiểm tra màu HEX hợp lệ</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-50 p-6 min-h-screen font-sans">
+  <h1 class="text-3xl font-bold mb-4">31. Kiểm tra màu HEX hợp lệ</h1>
+  <label for="hexInput" class="block mb-2 font-semibold">Nhập mã màu HEX:</label>
+  <input id="hexInput" type="text" placeholder="#FFFFFF hoặc FFFFFF" class="w-full p-2 border rounded mb-4" />
+  <button id="checkBtn" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Kiểm tra</button>
+  <div id="result" class="mt-4 p-4 border rounded"></div>
+
+  <script>
+    const hexRegex = /^#?([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+    document.getElementById('checkBtn').addEventListener('click', () => {
+      const val = document.getElementById('hexInput').value.trim();
+      const resDiv = document.getElementById('result');
+      if (hexRegex.test(val)) {
+        resDiv.textContent = "Mã màu HEX hợp lệ.";
+        resDiv.className = "mt-4 p-4 border rounded text-green-700 bg-green-100";
+      } else {
+        resDiv.textContent = "Mã màu HEX không hợp lệ.";
+        resDiv.className = "mt-4 p-4 border rounded text-red-700 bg-red-100";
+      }
+    });
+  </script>
+</body>
+</html>

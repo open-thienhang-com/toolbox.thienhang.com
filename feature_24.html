@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kiểm tra định dạng IP (IPv4)</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-50 p-6 min-h-screen font-sans">
+  <h1 class="text-3xl font-bold mb-4">24. Kiểm tra định dạng IP (IPv4)</h1>
+  <label for="ipInput" class="block mb-2 font-semibold">Nhập địa chỉ IP:</label>
+  <input id="ipInput" type="text" class="w-full p-2 border rounded mb-4" placeholder="Ví dụ: 192.168.0.1" />
+  <button id="checkBtn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Kiểm tra</button>
+  <div id="result" class="mt-4 p-4 border rounded"></div>
+
+  <script>
+    const ipRegex = /^(25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)){3}$/;
+    document.getElementById('checkBtn').addEventListener('click', () => {
+      const ip = document.getElementById('ipInput').value.trim();
+      const resDiv = document.getElementById('result');
+      if (!ip) {
+        alert('Vui lòng nhập địa chỉ IP.');
+        return;
+      }
+      if (ipRegex.test(ip)) {
+        resDiv.textContent = 'Địa chỉ IP hợp lệ.';
+        resDiv.className = 'mt-4 p-4 border rounded text-green-700 bg-green-100';
+      } else {
+        resDiv.textContent = 'Địa chỉ IP không hợp lệ.';
+        resDiv.className = 'mt-4 p-4 border rounded text-red-700 bg-red-100';
+      }
+    });
+  </script>
+</body>
+</html>

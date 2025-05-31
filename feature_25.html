@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kiểm tra định dạng URL</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-50 p-6 min-h-screen font-sans">
+  <h1 class="text-3xl font-bold mb-4">25. Kiểm tra định dạng URL</h1>
+  <label for="urlInput" class="block mb-2 font-semibold">Nhập URL:</label>
+  <input id="urlInput" type="text" class="w-full p-2 border rounded mb-4" placeholder="https://example.com" />
+  <button id="checkBtn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Kiểm tra</button>
+  <div id="result" class="mt-4 p-4 border rounded"></div>
+
+  <script>
+    const urlRegex = /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/[\w-./?%&=]*)?$/i;
+    document.getElementById('checkBtn').addEventListener('click', () => {
+      const url = document.getElementById('urlInput').value.trim();
+      const resDiv = document.getElementById('result');
+      if (!url) {
+        alert('Vui lòng nhập URL.');
+        return;
+      }
+      if (urlRegex.test(url)) {
+        resDiv.textContent = 'URL hợp lệ.';
+        resDiv.className = 'mt-4 p-4 border rounded text-green-700 bg-green-100';
+      } else {
+        resDiv.textContent = 'URL không hợp lệ.';
+        resDiv.className = 'mt-4 p-4 border rounded text-red-700 bg-red-100';
+      }
+    });
+  </script>
+</body>
+</html>

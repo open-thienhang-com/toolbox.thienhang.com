@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>So sánh chuỗi không phân biệt hoa thường</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-50 p-6 min-h-screen font-sans">
+  <h1 class="text-3xl font-bold mb-4">17. So sánh chuỗi không phân biệt hoa thường</h1>
+  <label for="str1" class="block mb-2 font-semibold">Chuỗi 1:</label>
+  <input id="str1" type="text" class="w-full p-2 border rounded mb-4" placeholder="Nhập chuỗi 1..." />
+  <label for="str2" class="block mb-2 font-semibold">Chuỗi 2:</label>
+  <input id="str2" type="text" class="w-full p-2 border rounded mb-4" placeholder="Nhập chuỗi 2..." />
+  <button id="compareBtn" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">So sánh</button>
+  <div id="compareResult" class="mt-4 p-4 bg-gray-100 border rounded"></div>
+
+  <script>
+    document.getElementById('compareBtn').addEventListener('click', () => {
+      const s1 = document.getElementById('str1').value.trim().toLowerCase();
+      const s2 = document.getElementById('str2').value.trim().toLowerCase();
+
+      if (!s1 || !s2) {
+        alert('Vui lòng nhập cả hai chuỗi.');
+        return;
+      }
+
+      const result = s1 === s2 ? 'Hai chuỗi giống nhau (không phân biệt hoa thường).' : 'Hai chuỗi khác nhau.';
+      document.getElementById('compareResult').textContent = result;
+    });
+  </script>
+</body>
+</html>

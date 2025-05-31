@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hash MD5</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/js-md5@0.7.3/build/md5.min.js"></script>
+</head>
+<body class="bg-gray-50 p-6 min-h-screen font-sans">
+  <h1 class="text-3xl font-bold mb-4">2. Hash MD5</h1>
+  <label for="md5text" class="block mb-2 font-semibold">Nhập chuỗi để băm MD5:</label>
+  <input id="md5text" type="text" placeholder="Nhập chuỗi..." class="w-full p-2 border rounded mb-4" />
+  <button id="hashMD5" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Tính MD5</button>
+  <div id="md5result" class="mt-4 p-4 bg-gray-100 border rounded break-words"></div>
+
+  <script>
+    document.getElementById('hashMD5').addEventListener('click', () => {
+      const text = document.getElementById('md5text').value;
+      if (!text) {
+        alert('Vui lòng nhập chuỗi để băm.');
+        return;
+      }
+      const hash = md5(text);
+      document.getElementById('md5result').textContent = hash;
+    });
+  </script>
+</body>
+</html>

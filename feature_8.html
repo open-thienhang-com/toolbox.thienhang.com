@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Giải mã Base64</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-50 p-6 min-h-screen font-sans">
+  <h1 class="text-3xl font-bold mb-4">8. Giải mã Base64</h1>
+  <label for="base64decode" class="block mb-2 font-semibold">Nhập chuỗi Base64:</label>
+  <input id="base64decode" type="text" placeholder="Nhập chuỗi Base64..." class="w-full p-2 border rounded mb-4" />
+  <button id="decodeBtn" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Giải mã Base64</button>
+  <div id="base64decoded" class="mt-4 p-4 bg-gray-100 border rounded break-words"></div>
+
+  <script>
+    document.getElementById('decodeBtn').addEventListener('click', () => {
+      const text = document.getElementById('base64decode').value;
+      if (!text) {
+        alert('Vui lòng nhập chuỗi.');
+        return;
+      }
+      try {
+        const decoded = decodeURIComponent(escape(atob(text)));
+        document.getElementById('base64decoded').textContent = decoded;
+      } catch {
+        alert('Chuỗi không hợp lệ hoặc không thể giải mã.');
+      }
+    });
+  </script>
+</body>
+</html>

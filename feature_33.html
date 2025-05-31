@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tạo dãy số Fibonacci</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<style>
+  pre { white-space: pre-wrap; word-wrap: break-word; }
+</style>
+</head>
+<body class="bg-gray-50 p-6 min-h-screen font-sans">
+  <h1 class="text-3xl font-bold mb-4">33. Tạo dãy số Fibonacci</h1>
+  <label for="fibLength" class="block mb-2 font-semibold">Số phần tử dãy Fibonacci:</label>
+  <input id="fibLength" type="number" min="1" max="100" value="10" class="w-full p-2 border rounded mb-4" />
+  <button id="generateBtn" class="px-4 py-2 bg-pink-600 text-white rounded hover:bg-pink-700">Tạo dãy</button>
+  <pre id="result" class="mt-4 p-4 border rounded bg-gray-100"></pre>
+
+  <script>
+    function fibonacci(n) {
+      const fib = [0, 1];
+      for (let i = 2; i < n; i++) {
+        fib[i] = fib[i-1] + fib[i-2];
+      }
+      return fib.slice(0, n);
+    }
+
+    document.getElementById('generateBtn').addEventListener('click', () => {
+      const n = parseInt(document.getElementById('fibLength').value);
+      if (isNaN(n) || n < 1 || n > 100) {
+        alert('Vui lòng nhập số nguyên từ 1 đến 100.');
+        return;
+      }
+      const fibSeq = fibonacci(n);
+      document.getElementById('result').textContent = fibSeq.join(', ');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kiểm tra số nguyên tố</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-50 p-6 min-h-screen font-sans">
+  <h1 class="text-3xl font-bold mb-4">34. Kiểm tra số nguyên tố</h1>
+  <label for="primeInput" class="block mb-2 font-semibold">Nhập số nguyên dương:</label>
+  <input id="primeInput" type="number" min="1" class="w-full p-2 border rounded mb-4" />
+  <button id="checkBtn" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Kiểm tra</button>
+  <div id="result" class="mt-4 p-4 border rounded"></div>
+
+  <script>
+    function isPrime(num) {
+      if (num <= 1) return false;
+      if (num <= 3) return true;
+      if (num % 2 === 0 || num % 3 === 0) return false;
+      for (let i = 5; i * i <= num; i += 6) {
+        if (num % i === 0 || num % (i + 2) === 0) return false;
+      }
+      return true;
+    }
+
+    document.getElementById('checkBtn').addEventListener('click', () => {
+      const num = parseInt(document.getElementById('primeInput').value);
+      const resDiv = document.getElementById('result');
+      if (isNaN(num) || num < 1) {
+        alert('Vui lòng nhập số nguyên dương hợp lệ.');
+        return;
+      }
+      if (isPrime(num)) {
+        resDiv.textContent = `${num} là số nguyên tố.`;
+        resDiv.className = 'mt-4 p-4 border rounded text-green-700 bg-green-100';
+      } else {
+        resDiv.textContent = `${num} không phải số nguyên tố.`;
+        resDiv.className = 'mt-4 p-4 border rounded text-red-700 bg-red-100';
+      }
+    });
+  </script>
+</body>
+</html>

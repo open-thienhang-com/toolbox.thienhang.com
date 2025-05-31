@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tạo UUID v4</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-50 p-6 min-h-screen font-sans">
+  <h1 class="text-3xl font-bold mb-4">11. Tạo UUID v4</h1>
+  <button id="generateUUID" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Tạo UUID mới</button>
+  <div id="uuidresult" class="mt-4 p-4 bg-gray-100 border rounded break-words font-mono text-lg"></div>
+
+  <script>
+    function generateUUIDv4() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+        const r = Math.random() * 16 | 0;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    }
+    document.getElementById('generateUUID').addEventListener('click', () => {
+      const uuid = generateUUIDv4();
+      document.getElementById('uuidresult').textContent = uuid;
+    });
+  </script>
+</body>
+</html>

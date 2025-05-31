@@ -1,15 +1,36 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tính toán chu vi, diện tích hình học cơ bản (hình tròn, hình chữ nhật,...)</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tạo mật khẩu ngẫu nhiên</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<style>
+  pre { white-space: pre-wrap; word-break: break-word; }
+</style>
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Tính toán chu vi, diện tích hình học cơ bản (hình tròn, hình chữ nhật,...)</h1>
-  <p class="text-gray-700">Tính năng: Tính toán chu vi, diện tích hình học cơ bản (hình tròn, hình chữ nhật,...)</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">69. Tạo mật khẩu ngẫu nhiên</h1>
+<label for="lengthInput" class="block mb-2 font-semibold">Độ dài mật khẩu:</label>
+<input id="lengthInput" type="number" min="6" max="128" value="12" class="w-full p-2 border rounded mb-4" />
+<button id="generateBtn" class="px-4 py-2 bg-pink-600 text-white rounded hover:bg-pink-700">Tạo mật khẩu</button>
+<pre id="result" class="mt-4 p-4 bg-gray-100 border rounded font-mono"></pre>
+
+<script>
+const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
+
+document.getElementById('generateBtn').addEventListener('click', () => {
+  const length = parseInt(document.getElementById('lengthInput').value);
+  if (isNaN(length) || length < 6 || length > 128) {
+    alert('Độ dài mật khẩu phải từ 6 đến 128 ký tự.');
+    return;
+  }
+  let password = "";
+  for (let i=0; i<length; i++) {
+    password += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  document.getElementById('result').textContent = password;
+});
+</script>
 </body>
 </html>

@@ -1,15 +1,69 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tạo random color palette</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kiểm tra mật khẩu mạnh yếu</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<style>
+  #strengthBar {
+    height: 8px;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+  }
+</style>
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Tạo random color palette</h1>
-  <p class="text-gray-700">Tính năng: Tạo random color palette</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">70. Kiểm tra mật khẩu mạnh yếu</h1>
+<label for="passwordInput" class="block mb-2 font-semibold">Nhập mật khẩu:</label>
+<input id="passwordInput" type="password" class="w-full p-2 border rounded mb-2" />
+<div class="w-full bg-gray-300 rounded mb-2"><div id="strengthBar" class="bg-red-600" style="width: 0%"></div></div>
+<p id="strengthText" class="font-semibold"></p>
+
+<script>
+const input = document.getElementById('passwordInput');
+const strengthBar = document.getElementById('strengthBar');
+const strengthText = document.getElementById('strengthText');
+
+function getStrength(pw) {
+  let score = 0;
+  if (pw.length >= 8) score++;
+  if (/[a-z]/.test(pw)) score++;
+  if (/[A-Z]/.test(pw)) score++;
+  if (/\d/.test(pw)) score++;
+  if (/[\W_]/.test(pw)) score++;
+  return score;
+}
+
+input.addEventListener('input', () => {
+  const pw = input.value;
+  const score = getStrength(pw);
+  const percent = (score / 5) * 100;
+  strengthBar.style.width = percent + '%';
+
+  let color = 'red';
+  let text = 'Rất yếu';
+
+  if (score === 5) {
+    color = 'green';
+    text = 'Rất mạnh';
+  } else if (score >= 4) {
+    color = 'limegreen';
+    text = 'Mạnh';
+  } else if (score >= 3) {
+    color = 'orange';
+    text = 'Trung bình';
+  } else if (score >= 1) {
+    color = 'red';
+    text = 'Yếu';
+  } else {
+    color = 'gray';
+    text = '';
+  }
+
+  strengthBar.style.backgroundColor = color;
+  strengthText.textContent = text;
+});
+</script>
 </body>
 </html>

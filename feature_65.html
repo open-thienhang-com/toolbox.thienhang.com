@@ -1,15 +1,28 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Giải mã ROT13</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chuyển đổi số thập phân sang nhị phân</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 </head>
 <body class="bg-gray-50 p-6 min-h-screen font-sans">
-  <h1 class="text-3xl font-bold mb-4">Giải mã ROT13</h1>
-  <p class="text-gray-700">Tính năng: Giải mã ROT13</p>
-  <p class="mt-4 text-gray-500">[Bạn có thể thêm code JS, HTML cho tính năng này tại đây]</p>
+<h1 class="text-3xl font-bold mb-4">65. Chuyển đổi số thập phân sang nhị phân</h1>
+<label for="decInput" class="block mb-2 font-semibold">Nhập số thập phân:</label>
+<input id="decInput" type="number" min="0" class="w-full p-2 border rounded mb-4" />
+<button id="convertBtn" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Chuyển đổi</button>
+<div id="result" class="mt-4 p-4 bg-gray-100 border rounded font-mono"></div>
+
+<script>
+document.getElementById('convertBtn').addEventListener('click', () => {
+  const dec = parseInt(document.getElementById('decInput').value);
+  if (isNaN(dec) || dec < 0) {
+    alert('Vui lòng nhập số thập phân hợp lệ.');
+    return;
+  }
+  const bin = dec.toString(2);
+  document.getElementById('result').textContent = `Số nhị phân: ${bin}`;
+});
+</script>
 </body>
 </html>

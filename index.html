@@ -114,7 +114,7 @@
 
   async function getFeatureTitle(index) {
     try {
-      const response = await fetch(`feature_${index}.html`);
+      const response = await fetch(`toolbox/feature_${index}.html`);
       if (!response.ok) throw new Error('File không tồn tại');
       const text = await response.text();
 
